@@ -1,0 +1,43 @@
+---
+title: "pagerank"
+author: "lars pijnappel"
+date: "26 juni 2015"
+output: html_document
+source: http://rayli.net/blog/data/top-10-data-mining-algorithms-in-plain-r/
+---
+
+This code loads the required packages:
+ 
+```{r}
+library(igraph)
+# library(dplyr)
+library(printr)
+```
+
+>> Error msg when loading ```dplyr```. 
+Therefor, some lines further down the road have been disabled...
+
+This code generates a random directed graph with 10 objects:
+ 
+```{r}
+g <- random.graph.game(n = 10, p.or.m = 1/4, directed = TRUE)
+```
+
+Here's what the graph looks like:
+ 
+```{r}
+plot(g)
+```
+
+This code calculates the PageRank for each object:
+ 
+```{r}
+pr <- page.rank(g)$vector
+```
+
+This code outputs the PageRank for each object:
+ 
+```{r}
+ df <- data.frame(Object = 1:10, PageRank = pr)
+# arrange(df, desc(PageRank))
+```

@@ -1,0 +1,29 @@
+---
+title: "k-means"
+author: "lars pijnappel"
+date: "26 juni 2015"
+output: html_document
+source: http://rayli.net/blog/data/top-10-data-mining-algorithms-in-plain-r/
+---
+
+This code loads the required packages:
+ 
+```{r}
+library(stats)
+library(printr)
+```
+
+This code removes the Species column from the iris dataset.
+Then it uses k-means to create 3 clusters:
+ 
+```{r}
+model <- kmeans(x = subset(iris, select = -Species), centers = 3)
+```
+
+This code generates a confusion matrix for the results:
+ 
+```{r}
+table(model$cluster, iris$Species)
+```
+
+> NOTE: rerunning k-means yields same result (only clusternumber may change) 

@@ -1,0 +1,124 @@
+---
+title: "UCLA - Regression Pt.1"
+author: "lars pijnappel"
+date: "29 juni 2015"
+output: html_document
+source: http://scc.stat.ucla.edu/
+---
+
+#Regression in R - Part 1: Simple Linear Regression
+
+**Credits**
+Following is largely taken from the 'Regression in R' training material by Denise Ferrari & Tiffany Head (UCLA Department of Statistics - [Statistical Consulting Center][scc]).
+
+##Introduction
+
+###Loading the Data
+
+First retrieve the dataset 'Diabetes in Pima Indian Women' from the UCI Machine Learning Repository and assign it to the `pima` object. As this dataset contains non-descriptive columnnames, the header is set to false to discard them. Then, by using the `colnames()` function, more meaningful labels are added to this dataset.
+
+```{r}
+pima <- read.table("http://archive.ics.uci.edu/ml/machine-learning-databases/pima-indians-diabetes/pima-indians-diabetes.data", header=F, sep=",")
+
+colnames(pima) <- c("npreg", "glucose", "bp", "triceps", "insulin", "bmi", "diabetes", "age", "class")
+```
+
+###Having a peek at the data
+
+Let's get some first impressions of the `pima` data frame. By using the structure function `str()` one sees directly how many rows (in this case 768 observations) and columns (i.e. 9 variables) this dataset holds.
+
+```{r}
+str(pima)
+head(pima)
+tail(pima)
+```
+
+###Numerical Summaries
+
+Univariate summary information: Look for unusual features in the data (data-entry errors,
+outliers): check, for example, min, max of each variable.
+
+```{r}
+summary(pima)
+```
+
+###Coding Missing Data
+
+* Variable "npreg" has maximum value equal to 17
+    * unusually large but not impossible
+* Variables "glucose", "bp", "triceps", "insulin" and "bmi" have minimum value equal to zero
+    * in this case, it seems that zero was used to code missing data
+
+Zero should ***not*** be used to represent missing data
+* it's a valid value for some of the variables
+* can yield misleading results
+
+Set the missing values coded as zero to NA:
+
+```{r}
+pima$glucose[pima$glucose == 0] <- NA
+pima$bp[pima$bp == 0] <- NA
+pima$triceps[pima$triceps == 0] <- NA
+pima$insulin[pima$insulin == 0] <- NA
+pima$bmi[pima$bmi == 0] <- NA
+```
+
+Let's verify that the minimum value for the modified variables are not zero anymore:
+
+```{r}
+summary(pima)
+```
+
+###Coding Categorical Variables
+Variable "class" is categorical, not quantitative
+
+**R code for categorical variables**
+
+Categorical should ***not*** be coded as numerical data (it's a problem of "average zip code"). Set categorical variables coded as numerical to factor:
+
+```{r}
+pima$class <- factor(pima$class)
+# View the 'Class' variable BEFORE assigning labels to the levels
+levels(pima$class)
+summary(pima$class)
+```
+
+```{r}
+levels(pima$class) <- c("neg", "pos")
+# And again, now AFTER assigning labels to the levels
+levels(pima$class)
+summary(pima$class)
+```
+
+###Final Coding
+```{r}
+summary(pima)
+```
+
+###Graphical Summaries (Univariate)
+
+```{r}
+# simple data plot
+plot(sort(pima$bp))
+# histogram
+hist(pima$bp)
+#density plot
+plot(density(pima$bp, na.rm = TRUE))
+```
+
+###Graphical Summaries (Bivariate)
+
+```{r}
+#scatterplot
+plot(triceps~bmi, pima)
+#boxplot
+boxplot(diabetes~class, pima)
+```
+
+##Simple Linear Regression
+
+
+
+
+
+[scc]: http://scc.stat.ucla.edu/ 'UCLA Statistical Consulting Center'

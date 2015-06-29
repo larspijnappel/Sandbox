@@ -1,0 +1,33 @@
+---
+title: "em"
+author: "lars pijnappel"
+date: "26 juni 2015"
+output: html_document
+source: http://rayli.net/blog/data/top-10-data-mining-algorithms-in-plain-r/
+---
+
+This code loads the required packages:
+ 
+```{r}
+library(mclust)
+library(printr)
+```
+
+This code removes the Species column from the iris dataset.
+Then it uses Mclust to create clusters:
+ 
+```{r}
+model <- Mclust(subset(iris, select = -Species))
+```
+
+This code generates a confusion matrix for the results:
+ 
+```{r}
+table(model$classification, iris$Species)
+```
+
+
+Use this to plot the EM model
+```{r}
+plot(model)
+```

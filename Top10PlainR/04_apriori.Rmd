@@ -1,0 +1,31 @@
+---
+title: "Apriori"
+author: "lars pijnappel"
+date: "26 juni 2015"
+output: html_document
+source: http://rayli.net/blog/data/top-10-data-mining-algorithms-in-plain-r/
+---
+
+This code loads the required packages:
+ 
+```{r, warning = FALSE, message = FALSE}
+library(arules)
+library(printr)
+data("Adult")
+```
+
+This code generates the association rules from the dataset:
+```{r}
+rules <- apriori(Adult,
+    parameter = list(support = 0.4, confidence = 0.7),
+    appearance = list(rhs = c("race=White", "sex=Male"), default = "lhs"))
+```
+
+This code gives us a view of the rules:
+ 
+```{r}
+rules.sorted <- sort(rules, by = "lift")
+top5.rules <- head(rules.sorted, 5)
+as(top5.rules, "data.frame")
+```
+

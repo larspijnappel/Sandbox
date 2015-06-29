@@ -1,0 +1,38 @@
+---
+title: "knn"
+author: "lars pijnappel"
+date: "26 juni 2015"
+output: html_document
+source: http://rayli.net/blog/data/top-10-data-mining-algorithms-in-plain-r/
+---
+
+This code loads the required packages:
+ 
+```{r}
+library(class)
+library(printr)
+```
+
+This code takes a sample of 100 rows from the iris dataset:
+ 
+```{r}
+train.indeces <- sample(1:nrow(iris), 100)
+iris.train <- iris[train.indeces, ]
+iris.test <- iris[-train.indeces, ]
+```
+
+This code initializes kNN with the training data.
+In addition, it does a test with the testing data.
+ 
+```{r}
+results <- knn(train = subset(iris.train, select = -Species),
+    test = subset(iris.test, select = -Species),
+    cl = iris.train$Species)
+```
+
+This code generates a confusion matrix for the results:
+ 
+```{r}
+table(results, iris.test$Species)
+```
+
