@@ -1,5 +1,6 @@
-# UCLA_Topics_R
-Stuff based on materials provided in the [STAT 497C - Topics in R Statistical Language!][497c] by UCLA
+# UCLA IDRE
+
+Stuff based on materials provided on the [Resources page][idre] by the Institute for Digital Research and Education (IDRE) of UCLA.
 
 
-[497c]: https://onlinecourses.science.psu.edu/stat497r/node/1
+[idre]: http://statistics.ats.ucla.edu/stat/r/
