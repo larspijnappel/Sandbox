@@ -20,6 +20,7 @@ First retrieve the dataset 'Diabetes in Pima Indian Women' from the UCI Machine 
 ```{r}
 pima <- read.table("http://archive.ics.uci.edu/ml/machine-learning-databases/pima-indians-diabetes/pima-indians-diabetes.data", header=F, sep=",")
 
+# bp=blood pressure / bmi=body mass index
 colnames(pima) <- c("npreg", "glucose", "bp", "triceps", "insulin", "bmi", "diabetes", "age", "class")
 ```
 
@@ -78,14 +79,14 @@ Categorical should ***not*** be coded as numerical data (it's a problem of "aver
 
 ```{r}
 pima$class <- factor(pima$class)
-# View the 'Class' variable BEFORE assigning labels to the levels
+# view the 'Class' variable BEFORE assigning labels to the levels
 levels(pima$class)
 summary(pima$class)
 ```
 
 ```{r}
 levels(pima$class) <- c("neg", "pos")
-# And again, now AFTER assigning labels to the levels
+# and again, now AFTER assigning labels to the levels
 levels(pima$class)
 summary(pima$class)
 ```
@@ -102,16 +103,16 @@ summary(pima)
 plot(sort(pima$bp))
 # histogram
 hist(pima$bp)
-#density plot
+# density plot
 plot(density(pima$bp, na.rm = TRUE))
 ```
 
 ###Graphical Summaries (Bivariate)
 
 ```{r}
-#scatterplot
+# scatterplot
 plot(triceps~bmi, pima)
-#boxplot
+# boxplot
 boxplot(diabetes~class, pima)
 ```
 
