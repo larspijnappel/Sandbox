@@ -9,13 +9,14 @@ source: http://scc.stat.ucla.edu/
 #Regression in R - Part 1: Simple Linear Regression
 
 **Credits**
+
 Following is largely taken from the 'Regression in R' training material by Denise Ferrari & Tiffany Head (UCLA Department of Statistics - [Statistical Consulting Center][scc]).
 
-##Introduction
+##1. Introduction
 
 ###Loading the Data
 
-First retrieve the dataset 'Diabetes in Pima Indian Women' from the UCI Machine Learning Repository and assign it to the `pima` object. As this dataset contains non-descriptive columnnames, the header is set to false to discard them. Then, by using the `colnames()` function, more meaningful labels are added to this dataset.
+First retrieve the dataset 'Diabetes in Pima Indian Women' from the UCI Machine Learning Repository and assign it to the `pima` data frame. As this dataset contains non-descriptive columnnames, the header is set to false to discard them. Then, by using the function `colnames()`, more meaningful labels are added to this dataset.
 
 ```{r}
 pima <- read.table("http://archive.ics.uci.edu/ml/machine-learning-databases/pima-indians-diabetes/pima-indians-diabetes.data", header=F, sep=",")
@@ -41,6 +42,9 @@ outliers): check, for example, min, max of each variable.
 
 ```{r}
 summary(pima)
+
+# later in this Introduction section, the (before and after preprocessing) insulin observations are compared side-by-side.
+i_before <- pima$insulin  # insulin before preprocessing.
 ```
 
 ###Coding Missing Data
@@ -96,6 +100,15 @@ summary(pima$class)
 summary(pima)
 ```
 
+### Extra: comparison of insulin observations before & after preprocessing
+Remember that for several variables, such as `insulin`, the value '0' for an observation has been replaced with 'NA'.
+
+```{r}
+i_after <- pima$insulin                 # insulin after preprocessing
+i_both <- data.frame(i_before, i_after) # insulin compared
+summary(i_both)
+```
+
 ###Graphical Summaries (Univariate)
 
 ```{r}
@@ -116,7 +129,7 @@ plot(triceps~bmi, pima)
 boxplot(diabetes~class, pima)
 ```
 
-##Simple Linear Regression
+##2. Simple Linear Regression
 
 
 
