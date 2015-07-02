@@ -8,11 +8,10 @@ source: http://scc.stat.ucla.edu/
 
 #Regression in R - Part 1: Simple Linear Regression
 
-**Credits**
-
+>**Credits**
 Following is largely taken from the 'Regression in R' training material by Denise Ferrari & Tiffany Head (UCLA Department of Statistics - [Statistical Consulting Center][scc]).
 
-##1. Introduction
+#1. Introduction
 
 ###Loading the Data
 
@@ -31,6 +30,12 @@ Let's get some first impressions of the `pima` data frame. By using the structur
 
 ```{r}
 str(pima)
+```
+
+TIP: Instead of using the function `str()` for a specific object, you can use `ls.str()` to see the structural details of all objects.
+
+```{r}
+# returning the first and last parts of a vector, matrix, table, data frame or function.
 head(pima)
 tail(pima)
 ```
@@ -100,16 +105,22 @@ summary(pima$class)
 summary(pima)
 ```
 
-### Extra: comparison of insulin observations before & after preprocessing
-Remember that for several variables, such as `insulin`, the value '0' for an observation has been replaced with 'NA'.
-
+***
+####Extra: comparing the insulin observations before & after the preprocessing
+Remember that for several variables, such as `insulin`, the value '0' for an observation has been replaced with 'NA'. Now look at the differences:
 ```{r}
 i_after <- pima$insulin                 # insulin after preprocessing
 i_both <- data.frame(i_before, i_after) # insulin compared
 summary(i_both)
 ```
+***
 
 ###Graphical Summaries (Univariate)
+Before starting off, let's first get a 'condensed' view of the blood pressure data by using the Stem-and-Leaf plot `stem()`.
+```{r}
+stem(pima$bp)
+```
+
 
 ```{r}
 # simple data plot
@@ -120,6 +131,8 @@ hist(pima$bp)
 plot(density(pima$bp, na.rm = TRUE))
 ```
 
+
+
 ###Graphical Summaries (Bivariate)
 
 ```{r}
@@ -129,7 +142,8 @@ plot(triceps~bmi, pima)
 boxplot(diabetes~class, pima)
 ```
 
-##2. Simple Linear Regression
+
+#2. Simple Linear Regression
 
 
 
