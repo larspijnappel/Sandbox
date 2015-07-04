@@ -13,7 +13,7 @@ Following is largely taken from the 'Regression in R' training material by Denis
 
 #1. Introduction
 
-###Loading the Data
+###Loading the data
 
 First retrieve the dataset 'Diabetes in Pima Indian Women' from the UCI Machine Learning Repository and assign it to the `pima` data frame. As this dataset contains non-descriptive columnnames, the header is set to false to discard them. Then, by using the function `colnames()`, more meaningful labels are added to this dataset.
 
@@ -52,7 +52,7 @@ summary(pima)
 i_before <- pima$insulin  # insulin before preprocessing.
 ```
 
-###Coding Missing Data
+###Coding missing data
 
 * Variable "npreg" has maximum value equal to 17
     * unusually large but not impossible
@@ -79,7 +79,7 @@ Let's verify that the minimum value for the modified variables are not zero anym
 summary(pima)
 ```
 
-###Coding Categorical Variables
+###Coding categorical variables
 Variable "class" is categorical, not quantitative
 
 **R code for categorical variables**
@@ -100,7 +100,7 @@ levels(pima$class)
 summary(pima$class)
 ```
 
-###Final Coding
+###Final coding
 ```{r}
 summary(pima)
 ```
@@ -115,7 +115,7 @@ summary(i_both)
 ```
 ***
 
-###Graphical Summaries (Univariate)
+###Graphical summaries (Univariate)
 Before starting off, let's first get a 'condensed' view of the blood pressure data by using the Stem-and-Leaf plot `stem()`.
 ```{r}
 stem(pima$bp)
@@ -133,7 +133,7 @@ plot(density(pima$bp, na.rm = TRUE))
 
 
 
-###Graphical Summaries (Bivariate)
+###Graphical summaries (Bivariate)
 
 ```{r}
 # scatterplot

@@ -13,7 +13,29 @@ Following is largely taken from the 'Regression in R' training material by Denis
 
 #2. Simple Linear Regression
 
+Linear regression with a single predictor. The objective is to describe the relationship between *two variables*, say X and Y as a straight line, that is, Y is modeled as a *linear* function of X. 
 
+X is an *explanatory* variable on the horizontal axis, whereas Y is a *response* variable on the vertical axis.
+
+###Loading the data..
+.. and take a first look at the data. 
+
+```{r}
+production <- read.table ("http://www.stat.tamu.edu/~sheather/book/docs/datasets/production.txt", header = T, sep = "")
+summary(production)
+plot(production)
+```
+
+The scatter plot allows one to check if the linear relationship is supported by the data.
+
+```{r}
+attach(production)
+plot(RunTime~RunSize)
+```
+
+    A brief explanation on regression: see the reg_1.pdf (sheet 24-26).
+
+###WIP ...
 
 
 
