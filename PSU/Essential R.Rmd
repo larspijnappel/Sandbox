@@ -1,0 +1,8 @@
+---
+title: "Essential R by Eric Nord"
+author: "lars pijnappel"
+date: "4 juli 2015"
+output: html_document
+source: https://onlinecourses.science.psu.edu/stat497r/node/157
+---
+

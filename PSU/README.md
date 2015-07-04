@@ -5,3 +5,4 @@ Stuff based on [Essential R][essential] materials provided in the [STAT 497C - T
 
 [essential]: https://onlinecourses.science.psu.edu/stat497r/node/157
 [topics]: https://onlinecourses.science.psu.edu/stat497r/node/1
+
