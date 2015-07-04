@@ -1,6 +1,9 @@
 # Sandbox
 Everyone is entitled to a playground
 
+## Data Science general
+* DSS - Curated Pages
+  * http://datasciencespecialization.github.io/curated/
 
 ## R
 * R news and tutorials contributed by 500+ R bloggers
