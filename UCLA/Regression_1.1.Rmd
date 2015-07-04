@@ -1,7 +1,7 @@
 ---
 title: "UCLA - Regression Pt.1"
 author: "lars pijnappel"
-date: "29 juni 2015"
+date: "04 july 2015"
 output: html_document
 source: http://scc.stat.ucla.edu/
 ---
@@ -141,11 +141,6 @@ plot(triceps~bmi, pima)
 # boxplot
 boxplot(diabetes~class, pima)
 ```
-
-
-#2. Simple Linear Regression
-
-
 
 
 

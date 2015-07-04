@@ -1,0 +1,20 @@
+---
+title: "UCLA - Regression Pt.1"
+author: "lars pijnappel"
+date: "04 july 2015"
+output: html_document
+source: http://scc.stat.ucla.edu/
+---
+
+#Regression in R - Part 1: Simple Linear Regression
+
+>**Credits**
+Following is largely taken from the 'Regression in R' training material by Denise Ferrari & Tiffany Head (UCLA Department of Statistics - [Statistical Consulting Center][scc]).
+
+#2. Simple Linear Regression
+
+
+
+
+
+[scc]: http://scc.stat.ucla.edu/ 'UCLA Statistical Consulting Center'
