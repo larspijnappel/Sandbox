@@ -8,6 +8,9 @@ Everyone is entitled to a playground
 ## R
 * R news and tutorials contributed by 500+ R bloggers
   * http://www.r-bloggers.com/
+*  Cookbook for R
+  * The goal of the cookbook is to provide solutions to common tasks and problems in analyzing data.
+  * http://www.cookbook-r.com/
 * A brief introduction to `apply` in R
   * http://www.r-bloggers.com/a-brief-introduction-to-%E2%80%9Capply%E2%80%9D-in-r/
 
