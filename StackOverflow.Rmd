@@ -1,0 +1,20 @@
+---
+title: "StackOverflow"
+author: "lars pijnappel"
+date: "26 juli 2015"
+output: pdf_document
+---
+
+#Microbenchmark
+Source: http://stackoverflow.com/questions/11134812/how-to-find-the-length-of-a-string-in-r
+
+```{r, echo=FALSE, warning = FALSE}
+require(microbenchmark)
+require(stringi)
+require(stringr)
+```
+
+```{r}
+x <- c(letters,NA,paste(sample(letters,2000,TRUE),collapse=" "))
+microbenchmark(nchar(x),str_length(x),stri_length(x))
+``` 
