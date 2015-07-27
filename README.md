@@ -19,6 +19,7 @@ Everyone is entitled to a playground
  * Contains a **Quick Reference Guide** to R Programming
 * A brief introduction to `apply` in R
   * http://www.r-bloggers.com/a-brief-introduction-to-%E2%80%9Capply%E2%80%9D-in-r/
+  * Three excellent YouTube lectures on the [apply functions by R Labs](https://www.youtube.com/watch?v=f0U74ZvLfQo)
 
 
 ## Markdown
