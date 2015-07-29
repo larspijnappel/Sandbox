@@ -17,7 +17,7 @@ source: https://class.coursera.org/rprog-030/forum/thread?thread_id=994
 3. [Solution 3 - lapply & do.call / tidyr & dplyr / tapply](#solution-3)
 4. [Solution 4 - anonymous function & lapply](#solution-4)
 5. [Solution 5 - data.table](#solution-5)
-5. [Timing stats (system.time)](#timing-stats)
+5. [Timing stats - system.time](#timing-stats)
 
 
 Now that the hard deadline for assignment 1 has passed, I wanted to pull together a bit of a walkthrough for the `pollutantmean()` function.
@@ -245,7 +245,9 @@ pollutantmean.dt('specdata', 'nitrate')
 ```
 
 
-## Timing stats (system.time)
+## Timing stats 
+> Using system.time
+
 Following is a quick summary of performance metrics (needs doublechecking).
 
 #### Solution 3 - lapply & do.call
