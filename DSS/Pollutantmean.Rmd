@@ -1,0 +1,185 @@
+---
+title: "Pollutantmean Solution Discussion"
+author: "lars pijnappel"
+date: "28 juli 2015"
+output: html_document
+source: https://class.coursera.org/rprog-030/forum/thread?thread_id=994
+---
+
+By [Derek Franks][coursera] (see also his [Github profile][gh])
+
+Now that the hard deadline for assignment 1 has passed, I wanted to pull together a bit of a walkthrough for the `pollutantmean()` function.
+
+First, I want to show how to "solve" the assignment. Second, I want to show some more advanced concepts that will hopefully help you with the remaining assignments and with your usage of R in the rest of the Data Science specialization.
+
+Keep in mind that I'm only going to cover the `pollutantmean()` function. I'm not going to post solutions for any of the other assignments.
+
+So, if you followed the tutorial, you ended up with this function:
+
+```{r}
+weightmedian <- function(directory, day)  {
+        files_list <- list.files(directory, full.names=TRUE)
+        dat <- data.frame()                      
+        for (i in 1:5) {
+                dat <- rbind(dat, read.csv(files_list[i]))
+        }
+        dat_subset <- dat[which(dat[, "Day"] == day),]      
+        median(dat_subset[, "Weight"], na.rm=TRUE)        
+}
+```
+
+I purposely made this function very similar to a working solution to `pollutantmean()`, but different in a few ways so that it's not possible to just blindly copy and paste your way to a solution.
+
+
+## Solution 1
+So here is a solution for `pollutantmean()` that is based on what is covered in the tutorial:
+
+```{r}
+pollutantmean <- function(directory, pollutant, id = 1:332) {
+        files_list <- dir(directory, full.names=TRUE)        
+        dat <- data.frame()                                  
+        for (i in id) {                                      
+                dat <- rbind(dat, read.csv(files_list[i]))
+        }
+        mean(dat[, pollutant], na.rm=T)                      
+}
+```
+
+When you look at it laid out like that, it's pretty simple, isn't it? What I've done is to build a file list of everything in the specdata directory. I then create an empty data frame. Then I loop through the files specified by `id` and use `rbind()` to merge them all into a single data frame. Finally I take the `mean()` of the column of that data frame defined by `pollutant`.
+
+We don't put any quotes around `pollutant` because it's not a literal name of a column. That's also why `dat$pollutant` doesn't work.
+
+You'll also notice that I'm not trying to combine every single csv file and then subset by `id`. You actually can do that, but a) it will be very, very slow with this approach, and b) `dat_id <- dat[which(dat$id == id), ]` isn't going to work. Actually it will work, but only if `id` is a single number (same thing goes for `day` in `weighmedian()`).
+
+If you have `dat[which(dat$id == id), ]` and 'id = 1:10', you need to use `%in%` instead of `==`. Otherwise, R will compare 1 with row 1, 2 with row 2... 1 with row 11, 2 with row 12 and so on. This is exactly the same as the SWIRL tutorial showing how R recycles vectors of different lengths.
+
+So the solution above is certainly a valid approach and many of you probably ended up with this or something very similar such as changing `dir(directory, full.names = TRUE)` to `dir(directory, full.names = TRUE)[id]` and then changing your for loop to `i in seq_along(files_list)`. Or maybe you used `sprintf` and `paste` to create a list of file names. You could even just build a list of file names in excel, save them in a csv file and read that list into R. As you'll see, there are a lot of different ways to create a working solution for `pollutantmean()`.
+
+The issue with this approach in general though is that it's very slow. If you run `pollutantmean("specdata","nitrate")` you'll find that it probably takes anywhere from 45 seconds to several minutes or more to complete.
+
+We can shorten this significantly by not actually creating an entire data frame and then subsetting it to take the mean. If we only are interested in the mean of a specific pollutant, why not just create a vector of that pollutant and take the mean?
+
+
+## Solution 2
+Here's an example that does just that:
+
+```{r}
+pollutantmean <- function(directory, pollutant, id = 1:332) {
+        files_list <- dir(directory, full.names=TRUE)
+        dat <- as.numeric()
+        for (i in id) {
+                dat <- c(dat, read.csv(files_list[i])[, pollutant])
+        }
+        mean(dat, na.rm=T)                      
+}
+```
+
+You can see that the basic structure is unchanged. But by creating a vector that contains only the column specified by `pollutant` instead of an entire dataframe, this approach will run `pollutantmean("specdata","nitrate")` in a matter of seconds. On my system, this approach yields a roughly 17x performance improvement.
+
+As a general rule, it's much faster to work with simpler objects (vectors) in R and build more complex objects (data frames) as a final step if needed. But also keep in mind that maximum absolute performance isn't usually your top priority when working in R. This also isn't a very "R-like" way of approaching this problem.
+
+
+## Solution 3
+### Functions lapply() & do.call()
+A much more "R-like" approach would be to take advantage of the `apply` family of functions. The biggest problem with the approaches above is that they involve growing an object inside of a loop by copying that object over and over. It works, but it's a very inefficient way of building an object - particularly as they get really big.
+
+There are several ways to address this in your code this but I'm going to focus on `lapply()` which in my experience tends to be the "workhorse" of the apply family. The "l" stands for "list". Data frames are just lists in which each element has the same length.
+
+The basic idea with `lapply()` is to take a list and iterate over that list with a specified function. The output of `lapply()` will always be a list. Under the covers it's still a loop, but it doesn't build the output by copying and re-copying the data. As such, it works much faster and usually requires far less code than implementing the same functionality within a for loop. This means it's easier to use interactively at the command line.
+
+We're going to start out the same way, by using `dir()` to create a list of all our files. Then we'll use `lapply()` to create a list that contains the data of each csv file. The syntax is `lapply(object_you_want_to_iterate_over, function_you_want_to_use)`. So our code is going to be `dat_temp <- lapply(files_list, read.csv)`. This reads in each file from `files_list` and stores it as an element of `dat_temp`. We can subset `files_list` by `id` in order to limit our data to the range called in the function.
+
+To better understand what's going on with `lapply()` you can run the following commands at the console:
+```{r}
+setwd('../../02. R Programming/Quizzes')
+files_list <- dir("specdata", full.names=TRUE)
+dat_temp <- lapply(files_list[1:10], read.csv)
+summary(dat_temp)
+str(dat_temp)
+```
+
+Once we have that list, we can use a function called `do.call()` to combine them into a single data frame. `do.call` lets you specify a function and then passes a list as if each element of the list were an argument to the function. The syntax is `do.call(function_you_want_to_use, list_of_arguments)`. In our case, we want to `rbind()` the output of our lapply list. So we'll use `dat <- do.call(rbind, dat_temp)`. This gives us a data frame `dat` that is just like what we created in our original approach.
+
+The function looks like this:
+
+```{r}
+pollutantmean <- function(directory, pollutant, id = 1:332) {
+        files_list <- dir(directory, full.names=TRUE)      
+        dat_temp <- lapply(files_list[id], read.csv)
+        dat <- do.call(rbind, dat_temp)
+        mean(dat[, pollutant], na.rm=T)                
+}
+```
+
+There are several benefits to this approach to `pollutantmean()`. First, you could do this interactively at the command line. While the goal of the assignment is to create a function to calculate the mean of a given pollutant, in the real-world, you're probably more likely to want to create a dataframe that contains all of your data and then manipulate and analyze that data frame as needed. You can do that with a couple of lines of code very easily.
+
+Second, it's fast. It's not as fast as the vector approach above, but it's way faster than the original approach. On my system, it's 8x faster than the first approach and about 2x slower than the vector approach. It's not absolutely as fast as we can achieve, but it strikes a good balance between speed and utility.
+
+This is the approach that I would personally use if you handed me the specdata folder and started asking me questions about it. I'd create a dataframe with everything in it using `lapply()` and `do.call()` and then start conducting my analysis.
+
+So for example:
+```{r eval=FALSE}
+setwd('../../02. R Programming/Quizzes')
+files_list <- dir("specdata", full.names=TRUE)
+dat <- do.call(rbind, lapply(files_list, read.csv))
+summary(dat)
+##          Date           sulfate          nitrate             ID  
+##  2004-01-01:   250   Min.   : 0       Min.   : 0       Min.   :  1
+##  2004-01-02:   250   1st Qu.: 1       1st Qu.: 0       1st Qu.: 79
+##  2004-01-03:   250   Median : 2       Median : 1       Median :168
+##  2004-01-04:   250   Mean   : 3       Mean   : 2       Mean   :164
+##  2004-01-05:   250   3rd Qu.: 4       3rd Qu.: 2       3rd Qu.:247
+##  2004-01-06:   250   Max.   :36       Max.   :54       Max.   :332
+##  (Other)   :770587   NA's   :653304   NA's   :657738
+```
+
+That gets me a data frame `dat` with all of my data in it. You could actually collapse the code down to 1 line if you wanted to. Then I can work with that data frame as needed:
+
+```{r}
+setwd('../../02. R Programming/Quizzes')
+dat <- do.call(rbind, lapply(dir("specdata", full.names=TRUE), read.csv))
+
+dat_1_10 <- dat[which(dat$ID %in% 1:10),]
+summary(dat_1_10)
+
+mean(dat_1_10$nitrate, na.rm=T)
+```
+
+  
+### Functions tidyr() & dplyr()
+If I wanted to be a little more "sophisticated" with how I was doing things, I might use a package like `dplyr` to handle the data manipulation or `tidyr` to tidy the data up a bit first.
+
+So for instance, I'll tidy up `dat`:
+
+```{r}
+library("tidyr")
+dat_tidy <- gather(dat, pollutant, reading, 2:3)
+str(dat_tidy)
+
+head(dat_tidy)
+```
+
+To use "tidy data" terminology, I've just melted the data set and turned the nitrate and sulfate columns into rows. Now each row of the data is a unique observation. As you'll see in later courses, one of the benefits of this format is that it makes it easier to visualize the data using a package like `ggplot2`.
+
+Once I have tidy data, I might then use `dplyr` to do some data munging. So for instance:
+
+```{r}
+library("dplyr")
+dat_tidy %>% group_by(pollutant) %>% summarise(mean_reading = mean(reading, na.rm=T))
+```
+
+Essentially, I've told `dplyr` to group the data by pollutant and show me the mean reading value for each. The `%>%` just allows me to chain together commands. This is just a really simple example but it should give you some ideas about how some of these packages start working together. A basic understanding of `tidyr` and `dplyr` will also help out in the Getting and Cleaning Data class.
+
+I should also add that it's possible to replicate what I just did above with `dplyr` and `tidyr` using functions in base R such as `reshape()`, `by()`, `aggregate()` and `tapply()`. It just usually takes longer and requires more code.
+
+```{r}
+# function tapply() only works because the original 'dat' df has been converted to the 'dat_tidy' df
+tapply(dat_tidy$reading, dat_tidy$pollutant, mean, na.rm=T)
+```
+
+
+## Solution 4
+
+
+[coursera]: https://class.coursera.org/rprog-030/forum/profile?user_id=5001733
+[gh]: https://github.com/derekfranks

@@ -2,7 +2,7 @@
 title: "DSS - Tutorial PA1"
 author: "lars pijnappel"
 date: "27 juni 2015"
-output: pdf_document
+output: html_document
 source: http://datasciencespecialization.github.io/rprog/
 ---
 
