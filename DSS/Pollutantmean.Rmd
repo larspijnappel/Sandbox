@@ -3,10 +3,22 @@ title: "Pollutantmean Solution Discussion"
 author: "lars pijnappel"
 date: "28 juli 2015"
 output: html_document
-source: https://class.coursera.org/rprog-030/forum/thread?thread_id=994
+---
+
+# Table of Contents
+1. [Solution 1 - for loop](#solution-1)
+2. [Solution 2 - vectors vs. data frames](#solution-2)
+3. [Solution 3 - lapply & do.call and tidyr & dplyr](#solution-3)
+4. [Solution 4 - anonymous function & lapply](#solution-4)
+5. [Solution 5 - data.table](#solution-5)
+
 ---
 
 By [Derek Franks][coursera] (see also his [Github profile][gh])
+
+source: https://class.coursera.org/rprog-030/forum/thread?thread_id=994
+
+---
 
 Now that the hard deadline for assignment 1 has passed, I wanted to pull together a bit of a walkthrough for the `pollutantmean()` function.
 
@@ -32,6 +44,8 @@ I purposely made this function very similar to a working solution to `pollutantm
 
 
 ## Solution 1
+> Using for loop
+
 So here is a solution for `pollutantmean()` that is based on what is covered in the tutorial:
 
 ```{r}
@@ -57,10 +71,12 @@ So the solution above is certainly a valid approach and many of you probably end
 
 The issue with this approach in general though is that it's very slow. If you run `pollutantmean("specdata","nitrate")` you'll find that it probably takes anywhere from 45 seconds to several minutes or more to complete.
 
-We can shorten this significantly by not actually creating an entire data frame and then subsetting it to take the mean. If we only are interested in the mean of a specific pollutant, why not just create a vector of that pollutant and take the mean?
-
 
 ## Solution 2
+> Using vectors vs. data frames
+
+We can shorten this significantly by not actually creating an entire data frame and then subsetting it to take the mean. If we only are interested in the mean of a specific pollutant, why not just create a vector of that pollutant and take the mean?
+
 Here's an example that does just that:
 
 ```{r}
@@ -78,9 +94,11 @@ You can see that the basic structure is unchanged. But by creating a vector that
 
 As a general rule, it's much faster to work with simpler objects (vectors) in R and build more complex objects (data frames) as a final step if needed. But also keep in mind that maximum absolute performance isn't usually your top priority when working in R. This also isn't a very "R-like" way of approaching this problem.
 
-
 ## Solution 3
-### Functions lapply() & do.call()
+> Using lapply & do.call and tidyr & dplyr
+
+
+### Functions lapply & do.call
 A much more "R-like" approach would be to take advantage of the `apply` family of functions. The biggest problem with the approaches above is that they involve growing an object inside of a loop by copying that object over and over. It works, but it's a very inefficient way of building an object - particularly as they get really big.
 
 There are several ways to address this in your code this but I'm going to focus on `lapply()` which in my experience tends to be the "workhorse" of the apply family. The "l" stands for "list". Data frames are just lists in which each element has the same length.
@@ -145,8 +163,7 @@ summary(dat_1_10)
 mean(dat_1_10$nitrate, na.rm=T)
 ```
 
-  
-### Functions tidyr() & dplyr()
+### Functions tidyr & dplyr
 If I wanted to be a little more "sophisticated" with how I was doing things, I might use a package like `dplyr` to handle the data manipulation or `tidyr` to tidy the data up a bit first.
 
 So for instance, I'll tidy up `dat`:
@@ -173,12 +190,57 @@ Essentially, I've told `dplyr` to group the data by pollutant and show me the me
 I should also add that it's possible to replicate what I just did above with `dplyr` and `tidyr` using functions in base R such as `reshape()`, `by()`, `aggregate()` and `tapply()`. It just usually takes longer and requires more code.
 
 ```{r}
-# function tapply() only works because the original 'dat' df has been converted to the 'dat_tidy' df
+## function tapply() only works because the numeric columns 'sulfate' & 'nitrate' (of the 'dat' df)
+## have been converted to the factor column 'pollutant' in the df 'dat_tidy'.
 tapply(dat_tidy$reading, dat_tidy$pollutant, mean, na.rm=T)
 ```
 
 
 ## Solution 4
+> Using anonymous function & lapply
+
+I want to show one more example of how you can "solve" the assignment. This is an implementation that uses the logic from our vector approach and combines it with `lapply()`. Here's what it looks like:
+
+```{r}
+pollutantmean <- function(directory, pollutant, id = 1:332) {
+        files_list <- dir(directory, full.names=TRUE)
+        dat <- lapply(files_list[id], function(x) read.csv(x)[[pollutant]])
+        mean(unlist(dat), na.rm=T)                      
+}
+setwd('../../02. R Programming/Quizzes')
+pollutantmean("specdata",'sulfate')
+pollutantmean("specdata",'nitrate')
+```
+
+This is the fastest computationally of all the approaches. I'm using an anonymous function in combination with `lapply`. Anonymous functions are a topic of their own, but essentially, instead of feeding `lapply` a function such as `read.csv` like we did before, I've written a short "function" that subsets the ouput of `read.csv` to produce a numeric vector. If I removed the `[[pollutant]]`, this anonymous function would work exactly the same as our `lapply(file_list, read.csv)` in the previous function.
+
+However because of that `[[pollutant]]`, instead of each element of the output list being an entire data frame like in the last example, in this case, each element of the list is a numeric vector that contains the data for the specified pollutant. Then I use the function `unlist()` to take the data out of our list and combine it into one big numeric vector and then take the mean of that vector.
+
+
+## In Conclusion
+
+Don't worry if you can't follow everything (espcially the last version of the pollutantmean - anonymous functions are very useful but they can be confusing at first). There are also about a million different ways to "solve" the assignment, but hopefully this has cleared up some questions you may have had and given you some ideas about other ways to approach this if you have to do something similar in the future.
+
+Generally speaking, the apply family of functions are very, very useful in R. They can be a bit confusing but if you can get comfortable with them (or at least a couple like `apply()` and `lapply()`), get comfortable with a few data manipulation packages such as `dplyr` and `tidyr`, and then learn `ggplot2`, you'll pretty much be ready for what you'll be doing in the rest of the Data Science specialization.
+
+
+## Solution 5
+> Using data.table
+
+And Al Warren added the blazingly fast data.table package:
+
+```{r}
+library(data.table)
+setwd('../../02. R Programming/Quizzes')
+pollutantmean <- function(directory, pollutant, id = 1:332) {
+    files <- list.files(directory, full.names = T)[id]
+    dt <- rbindlist(lapply(files, fread, header=T, na.strings="NA"))
+    mean(dt[[pollutant]], na.rm=T)
+}
+
+pollutantmean('specdata', 'sulfate')
+pollutantmean('specdata', 'nitrate')
+```
 
 
 [coursera]: https://class.coursera.org/rprog-030/forum/profile?user_id=5001733
