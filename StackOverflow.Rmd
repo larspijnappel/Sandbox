@@ -5,7 +5,7 @@ date: "26 juli 2015"
 output: pdf_document
 ---
 
-#Microbenchmark
+# Microbenchmark
 Source: http://stackoverflow.com/questions/11134812/how-to-find-the-length-of-a-string-in-r
 
 ```{r, echo=FALSE, warning = FALSE}
