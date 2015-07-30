@@ -27,3 +27,8 @@ Everyone is entitled to a playground
   * http://rmarkdown.rstudio.com/authoring_basics.html
 * Cheat Sheet, Reference Guide, Shiny, Output formats
   * http://rmarkdown.rstudio.com/
+
+## Statistics
+* Elementary Statistics with R
+  * http://www.r-tutor.com/elementary-statistics
+  * An R Introduction to Statistics by R Tutorial
