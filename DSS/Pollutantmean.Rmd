@@ -187,7 +187,7 @@ dat_tidy %>% group_by(pollutant) %>% summarise(mean_reading = mean(reading, na.r
 
 Essentially, I've told `dplyr` to group the data by pollutant and show me the mean reading value for each. The `%>%` just allows me to chain together commands. This is just a really simple example but it should give you some ideas about how some of these packages start working together. A basic understanding of `tidyr` and `dplyr` will also help out in the Getting and Cleaning Data class.
 
-### Functionstapply and other base functions
+### Functions tapply and other base functions
 
 I should also add that it's possible to replicate what I just did above with `dplyr` and `tidyr` using functions in base R such as `reshape()`, `by()`, `aggregate()` and `tapply()`. It just usually takes longer and requires more code.
 
