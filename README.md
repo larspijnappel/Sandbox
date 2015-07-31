@@ -14,6 +14,10 @@ Everyone is entitled to a playground
 *  Cookbook for R
   * http://www.cookbook-r.com/
   * The goal of the cookbook is to provide solutions to common tasks and problems in analyzing data.
+* Programming Exercises for R (by Dr Robin Reed)
+  * http://www2.warwick.ac.uk/fac/sci/statistics/staff/academic-research/reed/
+  * First two sheets are intended to get users thinking in terms of vector and
+matrix operations whilst the later sheets involve writing functions. Answers to these exercises are included at the end of this document.
 * Tutorials - Burns Statistics
   * http://www.burns-stat.com/documents/tutorials/
   * Impatient R / Why use the R language? / R relative to statistical packages / and more ..
