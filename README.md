@@ -14,6 +14,9 @@ Everyone is entitled to a playground
 *  Cookbook for R
   * http://www.cookbook-r.com/
   * The goal of the cookbook is to provide solutions to common tasks and problems in analyzing data.
+* Tutorials - Burns Statistics
+  * http://www.burns-stat.com/documents/tutorials/
+  * Impatient R / Why use the R language? / R relative to statistical packages / and more ..
 * R Programming Course Notes
  * https://github.com/larspijnappel/DataScienceSpCourseNotes/blob/master/2_RPROG/R%20Programming%20Course%20Notes.Rmd
  * Contains a **Quick Reference Guide** to R Programming
