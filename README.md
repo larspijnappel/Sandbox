@@ -18,7 +18,7 @@ Everyone is entitled to a playground
   * http://www2.warwick.ac.uk/fac/sci/statistics/staff/academic-research/reed/
   * First two sheets are intended to get users thinking in terms of vector and
 matrix operations whilst the later sheets involve writing functions. Answers to these exercises are included at the end of this document.
-* Tutorials - Burns Statistics
+* Tutorials and Books by Burns Statistics
   * http://www.burns-stat.com/documents/tutorials/
   * R Inferno / Impatient R / Why use the R language? / R relative to statistical packages / and more ..
 * R Programming Course Notes
