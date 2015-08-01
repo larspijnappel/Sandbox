@@ -1,4 +1,4 @@
----
+u---
 title: "Pollutantmean Solution Discussion"
 author: "lars pijnappel"
 date: "28 juli 2015"
@@ -14,7 +14,7 @@ source: https://class.coursera.org/rprog-030/forum/thread?thread_id=994
 # Table of Contents
 1. [Solution 1 - for loop](#solution-1)
 2. [Solution 2 - vectors vs. data frames](#solution-2)
-3. [Solution 3 - lapply & do.call / tidyr & dplyr / tapply](#solution-3)
+3. [Solution 3 - lapply & do.call / tidyr & dplyr / by & tapply](#solution-3)
 4. [Solution 4 - anonymous function & lapply](#solution-4)
 5. [Solution 5 - data.table](#solution-5)
 5. [Timing stats - system.time](#timing-stats)
@@ -95,7 +95,7 @@ You can see that the basic structure is unchanged. But by creating a vector that
 As a general rule, it's much faster to work with simpler objects (vectors) in R and build more complex objects (data frames) as a final step if needed. But also keep in mind that maximum absolute performance isn't usually your top priority when working in R. This also isn't a very "R-like" way of approaching this problem.
 
 ## Solution 3
-> Using lapply & do.call / tidyr & dplyr / tapply and other base functions
+> Using lapply & do.call / tidyr & dplyr / by & tapply (and other base functions)
 
 
 ### Functions lapply & do.call
@@ -187,13 +187,13 @@ dat_tidy %>% group_by(pollutant) %>% summarise(mean_reading = mean(reading, na.r
 
 Essentially, I've told `dplyr` to group the data by pollutant and show me the mean reading value for each. The `%>%` just allows me to chain together commands. This is just a really simple example but it should give you some ideas about how some of these packages start working together. A basic understanding of `tidyr` and `dplyr` will also help out in the Getting and Cleaning Data class.
 
-### Functions tapply and other base functions
+### Functions by & tapply and other base functions
 
 I should also add that it's possible to replicate what I just did above with `dplyr` and `tidyr` using functions in base R such as `reshape()`, `by()`, `aggregate()` and `tapply()`. It just usually takes longer and requires more code.
 
 ```{r}
-## function tapply() only works because the numeric columns 'sulfate' & 'nitrate' (of the 'dat' df)
-## have been converted to the factor column 'pollutant' in the df 'dat_tidy'.
+## function by() & tapply() only works because the numeric columns 'sulfate' & 'nitrate' (of the 'dat' df) have been converted to the factor column 'pollutant' in the df 'dat_tidy'.
+by(dat_tidy$reading, dat_tidy$pollutant, mean, na.rm=T)
 tapply(dat_tidy$reading, dat_tidy$pollutant, mean, na.rm=T)
 ```
 
