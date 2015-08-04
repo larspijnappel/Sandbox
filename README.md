@@ -25,6 +25,8 @@ matrix operations whilst the later sheets involve writing functions. Answers to 
  * https://github.com/larspijnappel/DataScienceSpCourseNotes/blob/master/2_RPROG/R%20Programming%20Course%20Notes.Rmd
  * Contains a **Quick Reference Guide** to R Programming
 * A brief introduction to `apply` in R
+  * http://adv-r.had.co.nz/Functionals.html (from [Advanced R](http://adv-r.had.co.nz/) by Hadley Wickham)
+    * The key to using functionals in place of for loops is recognising that common looping patterns are already implemented in existing base functionals.
   * http://www.r-bloggers.com/a-brief-introduction-to-%E2%80%9Capply%E2%80%9D-in-r/
   * Three excellent YouTube lectures on the [apply functions by R Labs](https://www.youtube.com/watch?v=f0U74ZvLfQo)
 
