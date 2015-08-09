@@ -51,3 +51,5 @@ matrix operations whilst the later sheets involve writing functions. Answers to 
 * Elementary Statistics with R
   * http://www.r-tutor.com/elementary-statistics
   * An R Introduction to Statistics by R Tutorial
+* Open Intro - Overview of Statistics (from the [swirl course](https://github.com/swirldev/swirl_courses))
+  * http://www.openintro.org/stat/down/OpenIntroStatSecond.pdf
