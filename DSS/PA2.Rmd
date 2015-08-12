@@ -6,7 +6,7 @@ output: html_document
 source: http://datasciencespecialization.github.io/rprog/
 ---
 
-#Practice Assignment 2
+#Programming Assignment 2
 
 ***
 ***Prerequisite before starting this tutorial***

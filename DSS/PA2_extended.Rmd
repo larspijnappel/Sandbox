@@ -1,0 +1,66 @@
+---
+title: "PA2 - extended"
+author: "lars pijnappel"
+date: "12 augustus 2015"
+output: html_document
+---
+
+#Topic
+This topic is extending on the [Programming Assignment 2][PA2] page (originally created by DanieleP) and covers how to validate your assignment by following a couple of test steps (which have been provided by Thiago Kurovski). Also, as pointed out by Louis Alexander McLennan, the following YouTube video on [function closures (and free variables)][closures101], might be helpful as well. Many thanks to all of you, it helped me a lot!
+
+#Intro 
+The Programming Assignment 2 from the course R Programming of the [Coursera Data Science Specialization][cdss]) concerns writing two R functions, which appears to be very challenging for many participants.
+
+Based on the provided [example functions][rdpeng], the task is to write a similar solution for *caching the inverse of a matrix* (for an explanation on inverse of a matrix see [Mathwords][mw] or [Wolfram MathWorld][wolfram]). 
+
+One might forget that the task is not really about creating functions which must be fully operational - the evaluation instructions for this peer assignement state explicitely that the *R code should not be run on the computer*. Nevertheless, it is very interesting to see it all working in order to get a better understanding of what these functions are all about. For this reason, the next section describes possible test steps which can be executed on your own code.
+
+##Important!
+Please note that these test cases do not cover all requirements as specified for this assignment, nor is it intended to validate the completeness of the task. Advise is to read (several times!) the assignment completely - which includes the evaluation criteria at the bottom of the page as well...
+
+#Test Cases
+```{r eval=FALSE}
+# Check if creating a cacheMatrix and
+# getting its content works fine
+x <- matrix(rnorm(1000000), nrow = 1000)
+m <- makeCacheMatrix(x)
+
+stopifnot(identical(m$get(), x))
+
+# Check if cacheSolve gives the
+# same result for the same matrix
+# and if it truly uses caching
+print(system.time(y  <- cacheSolve(m)))
+print(system.time(y1 <- cacheSolve(m)))
+
+stopifnot(identical(y, y1))
+
+# Check if cacheSolve gives the same result
+# as solve
+z <- solve(x)
+
+stopifnot(identical(y, z))
+
+# Check if updating the matrix with
+# set works correctly
+x1 <- matrix(rnorm(100), nrow = 10)
+m$set(x1)
+
+stopifnot(identical(m$get(), x1))
+
+# Check if the cache is unvalidated
+# after a set()
+y <- cacheSolve(m)
+z <- solve(x1)
+
+stopifnot(identical(y, z))
+```
+
+
+
+[PA2]: https://github.com/DanieleP/PA2-clarifying_instructions 'PA2-clarifying_instructions'
+[closures101]: https://www.youtube.com/watch?v=yiEeiMN2Khs
+[cdss]: https://www.coursera.org/specialization/jhudatascience/1 #Data Science course by Johns Hopkins University
+[rdpeng]: https://github.com/rdpeng/ProgrammingAssignment2
+[mw]: http://www.mathwords.com/i/inverse_of_a_matrix.htm
+[wolfram]: http://mathworld.wolfram.com/MatrixInverse.html
