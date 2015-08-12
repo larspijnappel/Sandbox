@@ -13,7 +13,7 @@ The Programming Assignment 2 from the course R Programming of the [Coursera Data
 
 Based on the provided [example functions][rdpeng], the task is to write a similar solution for *caching the inverse of a matrix* (for an explanation on inverse of a matrix see [Mathwords][mw] or [Wolfram MathWorld][wolfram]). 
 
-One might forget that the task is not really about creating functions which must be fully operational - the evaluation instructions for this peer assignement state explicitely that the *R code should not be run on the computer*. Nevertheless, it is very interesting to see it all working in order to get a better understanding of what these functions are all about. For this reason, the next section describes possible test steps which can be executed on your own code.
+One might forget that the task is not really about creating functions which must be fully operational - the evaluation instructions for this peer assessment state explicitely that the *R code should not be run on the computer*. Nevertheless, it is very interesting to see it all working in order to get a better understanding of what these functions are all about. For this reason, the next section describes possible test steps which can be executed on your own code.
 
 ##Important!
 Please note that these test cases do not cover all requirements as specified for this assignment, nor is it intended to validate the completeness of the task. Advise is to read (several times!) the assignment completely - which includes the evaluation criteria at the bottom of the page as well...
