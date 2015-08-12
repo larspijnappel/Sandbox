@@ -60,7 +60,7 @@ stopifnot(identical(y, z))
 
 [PA2]: https://github.com/DanieleP/PA2-clarifying_instructions 'PA2-clarifying_instructions'
 [closures101]: https://www.youtube.com/watch?v=yiEeiMN2Khs
-[cdss]: https://www.coursera.org/specialization/jhudatascience/1 #Data Science course by Johns Hopkins University
+[cdss]: https://www.coursera.org/specialization/jhudatascience/1 'Data Science course by Johns Hopkins University'
 [rdpeng]: https://github.com/rdpeng/ProgrammingAssignment2
 [mw]: http://www.mathwords.com/i/inverse_of_a_matrix.htm
 [wolfram]: http://mathworld.wolfram.com/MatrixInverse.html
