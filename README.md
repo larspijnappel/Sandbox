@@ -27,13 +27,17 @@ matrix operations whilst the later sheets involve writing functions. Answers to 
 * R Programming Course Notes
  * https://github.com/larspijnappel/DataScienceSpCourseNotes/blob/master/2_RPROG/R%20Programming%20Course%20Notes.Rmd
  * Contains a **Quick Reference Guide** to R Programming
-* A brief introduction to `apply` in R
-  * http://adv-r.had.co.nz/Functionals.html (from [Advanced R](http://adv-r.had.co.nz/) by Hadley Wickham)
-    * The key to using functionals in place of for loops is recognising that common looping patterns are already implemented in existing base functionals.
-  * http://www.r-bloggers.com/a-brief-introduction-to-%E2%80%9Capply%E2%80%9D-in-r/
-  * Three excellent YouTube lectures on the [apply functions by R Labs](https://www.youtube.com/watch?v=f0U74ZvLfQo)
 * R for Excel Users
   * http://www.rforexcelusers.com/
+
+### A brief introduction to `apply` in R
+* R Grouping functions: sapply vs. lapply vs. apply. vs. tapply vs. by vs. aggregate
+  * http://stackoverflow.com/questions/3505701/r-grouping-functions-sapply-vs-lapply-vs-apply-vs-tapply-vs-by-vs-aggrega/7141669#7141669
+* [Advanced R](http://adv-r.had.co.nz/) by Hadley Wickham
+  * http://adv-r.had.co.nz/Functionals.html
+* R Bloggers
+  * http://www.r-bloggers.com/a-brief-introduction-to-%E2%80%9Capply%E2%80%9D-in-r/
+  * Three excellent YouTube lectures on the [apply functions by R Labs](https://www.youtube.com/watch?v=f0U74ZvLfQo)
 
 ### R Styleguides
  * Style guide by Hadley Wickham
