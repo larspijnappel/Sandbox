@@ -32,6 +32,8 @@ matrix operations whilst the later sheets involve writing functions. Answers to 
     * The key to using functionals in place of for loops is recognising that common looping patterns are already implemented in existing base functionals.
   * http://www.r-bloggers.com/a-brief-introduction-to-%E2%80%9Capply%E2%80%9D-in-r/
   * Three excellent YouTube lectures on the [apply functions by R Labs](https://www.youtube.com/watch?v=f0U74ZvLfQo)
+* R for Excel Users
+  * http://www.rforexcelusers.com/
 
 ### R Styleguides
  * Style guide by Hadley Wickham
