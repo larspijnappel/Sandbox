@@ -22,14 +22,14 @@ Everyone is entitled to a playground
 * R news and tutorials contributed by 500+ [R bloggers](http://www.r-bloggers.com/)
 
 #### R Styleguides
- * Style guide by [Hadley Wickham](http://adv-r.had.co.nz/Style.html)
+ * [Hadley Wickham's Style Guide](http://adv-r.had.co.nz/Style.html)
  * [Google's R Style Guide](https://google-styleguide.googlecode.com/svn/trunk/Rguide.xml)
- * R Coding Conventions ([RCC](https://docs.google.com/document/d/1esDVxyWvH8AsX-VJa-8oqWaHLs4stGlIbk8kLc5VlII/edit))
+ * [RCC](https://docs.google.com/document/d/1esDVxyWvH8AsX-VJa-8oqWaHLs4stGlIbk8kLc5VlII/edit) (R Coding Conventions)
 
 #### A brief introduction to `apply` in R
 * [SO: R Grouping functions](http://stackoverflow.com/questions/3505701/r-grouping-functions-sapply-vs-lapply-vs-apply-vs-tapply-vs-by-vs-aggrega/7141669#7141669): sapply vs. lapply vs. apply. vs. tapply vs. by vs. aggregate
-* [Advanced R](http://adv-r.had.co.nz/) by Hadley Wickham
-    * http://adv-r.had.co.nz/Functionals.html
+* [Functionals](http://adv-r.had.co.nz/Functionals.html) by Hadley Wickham
+    * Site [Advanced R](http://adv-r.had.co.nz/)
 * [A brief introduction](http://www.r-bloggers.com/a-brief-introduction-to-%E2%80%9Capply%E2%80%9D-in-r/) on R Bloggers
 * Three excellent YouTube lectures [by R Labs](https://www.youtube.com/watch?v=f0U74ZvLfQo) on the apply functions
 
@@ -39,8 +39,6 @@ Everyone is entitled to a playground
     * Cheat Sheet, Reference Guide, Shiny, Output formats on [RStudio](http://rmarkdown.rstudio.com/)
 
 ## Statistics
-* Elementary Statistics with R
-    * http://www.r-tutor.com/elementary-statistics
+* [Elementary Statistics with R](http://www.r-tutor.com/elementary-statistics)
     * An R Introduction to Statistics by R Tutorial
-* Open Intro - Overview of Statistics (from the [swirl course](https://github.com/swirldev/swirl_courses))
-    * http://www.openintro.org/stat/down/OpenIntroStatSecond.pdf
+* [Open Intro](http://www.openintro.org/stat/down/OpenIntroStatSecond.pdf) - Overview of Statistics (from the [swirl course](https://github.com/swirldev/swirl_courses))
