@@ -5,10 +5,25 @@ date: "10 september 2015"
 output: html_document
 ---
 
-## Useful links
-* Github - courses > [03_GettingData](https://github.com/larspijnappel/courses/tree/master/03_GettingData)
-* DSS > [Getting and Cleaning Data](http://datasciencespecialization.github.io/getclean/)
+***
+***Orginal stuff is coming from the GitHub repository [DataScienceSpecialization](https://github.com/DataScienceSpecialization) > Courses > [03_GettingData](https://github.com/DataScienceSpecialization/courses/tree/master/03_GettingData).***
 
+***
+
+# Table of Contents
+
+* [CSV and Excel files](#CSV-and-Excel-files)
+* [XML files](#xml-files)
+    * [XPath](#xpath)
+* [JSON](#json)
+* [Cleanup file system](#cleanup-file-system)
+
+_Note: To get a sublist, press 4x space ( or a multiply of it, to get a sub-sublist)_
+
+***
+
+# CSV and Excel files 
+[ToC](#table-of-contents)
 
 ## 01_04_downLoadingFiles.pdf
 
@@ -89,14 +104,16 @@ cameraData_xlsx_Subset
 ```
 
 
+# XML files 
+[ToC](#table-of-contents)
+
 ## 01_07_readingXML.pdf
 
+Following examples are taken from [w3schools](http://www.w3schools.com/xml/simple.xml)
+
+### Read file into R
 ```{r}
 library(XML)
-## This works..
-txt = "<foo a='123' b='an attribute'><bar>some text</bar>other text</foo>"
-doc <- xmlTreeParse(txt, useInternal=TRUE)
-rm(txt)
 
 fileURL <- "http://www.w3schools.com/xml/simple.xml"
 doc <- xmlTreeParse( fileURL, useInternal=TRUE )
@@ -105,8 +122,71 @@ xmlName( rootNode )
 names( rootNode )
 ```
 
+### Directly accessing parts of the XML
+```{r}
+rootNode[[1]]
+rootNode[[1]][[1]]
+```
 
-# Remove folder with the downloaded files
+### Programatically accessing parts of the XML
+```{r}
+xmlSApply( rootNode, xmlValue )
+```
+
+### XPath
+[ToC](#table-of-contents)
+
+    * /node Top level node
+    * //node Node at any level
+    * node[@attr-name] Node with an attribute name
+    * node[@attr-name='bob'] Node with attribute name attr-name='bob'
+
+Information from: http://www.stat.berkeley.edu/~statcur/Workshop2/Presentations/XML.pdf
+```{r}
+xpathSApply(rootNode,"//name",xmlValue)
+xpathSApply(rootNode,"//price",xmlValue)
+```
+
+### XPath - another example (html)
+http://espn.go.com/nfl/team/_/name/bal/baltimore-ravens
+
+With htmlTreeParse you basically read the source of the webpage.
+```{r}
+fileUrl <- "http://espn.go.com/nfl/team/_/name/bal/baltimore-ravens"
+doc <- htmlTreeParse( fileUrl, useInternal = TRUE )
+scores <- xpathSApply( doc, "//div[@class='score']", xmlValue )         ## <div class="score">
+teams <- xpathSApply( doc, "//li[@class='team-name']", xmlValue )       ## <li class="team-name">
+scores
+teams
+
+
+## xmlValue: raw contents of leaf nodes (which have no children nodes)
+gamemeta <- xpathSApply( doc, "//div[@class='game-meta']", xmlValue)  ## <div class="game-meta">
+gamemeta
+## xmlChildren: returns a list of child XMLNode objects within an XMLNode object
+gamemeta <- xpathSApply( doc, "//div[@class='game-meta']", xmlChildren) 
+head(gamemeta, 2)
+## xmlName: element or tag name introduced in the <name ...> entry in an XML document
+gamemeta <- xpathSApply( doc, "//div[@class='game-meta']", xmlName)
+gamemeta
+## xmlAttrs: name-value pairs of attributes
+gamemeta <- xpathSApply( doc, "//div[@class='game-meta']", xmlAttrs)
+gamemeta
+
+```
+
+## Notes and further resources
+
+* Official XML tutorials [short](http://www.omegahat.org/RSXML/shortIntro.pdf), [long](http://www.omegahat.org/RSXML/Tour.pdf)
+* An [outstanding guide to the XML package](http://www.stat.berkeley.edu/%7Estatcur/Workshop2/Presentations/XML.pdf)
+
+# JSON
+## 01_08_readingJSON.pdf
+[ToC](#table-of-contents)
+
+# Cleanup file system
+[ToC](#table-of-contents)
+Remove the created data folder (incl. its downloaded files).
 
 ```{r}
 unlink( "data" , recursive = TRUE)
