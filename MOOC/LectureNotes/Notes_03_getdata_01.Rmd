@@ -1,0 +1,114 @@
+---
+title: "Lectures notes"
+author: "lars pijnappel"
+date: "10 september 2015"
+output: html_document
+---
+
+## Useful links
+* Github - courses > [03_GettingData](https://github.com/larspijnappel/courses/tree/master/03_GettingData)
+* DSS > [Getting and Cleaning Data](http://datasciencespecialization.github.io/getclean/)
+
+
+## 01_04_downLoadingFiles.pdf
+
+```{r}
+getwd()
+
+if ( !file.exists( "data" )) {
+        dir.create( "data" )
+}
+dir( )
+# file.remove( "data" )
+# dir()
+```
+
+### download csv
+```{r}
+## folder references './data' and 'data' both works..
+
+fileURL <- "https://data.baltimorecity.gov/api/views/dz54-2aru/rows.csv?accessType=DOWNLOAD"
+## w/o method argument, function results in an error when Knitting it (CTRL-SHIFT-K)
+download.file( fileURL, destfile = "./data/cameras.csv", method="wininet")
+list.files( "data" )
+```
+
+## 01_05_readingLocalFiles.pdf
+
+```{r}
+# read.table() expects by default tab separated data and no header included.
+cameraData_csv <- read.table( "./data/cameras.csv", sep=",", header = TRUE )
+head( cameraData_csv )
+```
+
+## 01_06_readingExcelFiles.pdf
+
+### download xlsx
+```{r}
+if ( !file.exists("data") ) dir.create("data")
+
+fileURL <- "https://data.baltimorecity.gov/api/views/dz54-2aru/rows.xlsx?accessType=DOWNLOAD"
+## w/o mode argument, the donwloaded xlsx gets corrupted (can't be opened in Excel)
+download.file( fileURL, destfile = "./data/cameras.xlsx", method="wininet", mode="wb")
+list.files( "data" )
+
+
+dateDownloaded <- date()
+dateDownloaded
+```
+
+### Different ways reading the xlsx file
+```{r}
+## this library requires java (64-bit > http://www.java.com/en/download/manual.jsp )..
+library( xlsx, quietly = TRUE )
+cameraData_xlsx <- read.xlsx( "./data/cameras.xlsx", sheetIndex = 1, header = TRUE)
+
+## following library doesn't require java..
+library( readxl )
+cameraData_rxl <- read_excel( "./data/cameras.xlsx" )
+
+## XLConnect package has more options for writing/manipulating Excel files.
+## https://cran.r-project.org/web/packages/XLConnect/vignettes/XLConnect.pdf
+library( XLConnect, quietly = TRUE )
+cameraData_xlc <- loadWorkbook( "./data/cameras.xlsx" )
+
+## apparently, the rxl-object differs with both the csv- and xlsx-object
+identical( cameraData_csv, cameraData_xlsx )
+identical( cameraData_csv, cameraData_rxl )
+identical( cameraData_xlsx, cameraData_rxl )
+## same applies for the xlc-object
+identical( cameraData_xlc, cameraData_csv )
+identical( cameraData_xlc, cameraData_xlsx )
+identical( cameraData_xlc, cameraData_rxl )
+
+
+i_col <- 2:3
+i_row <- 1:4
+cameraData_xlsx_Subset <- read.xlsx( "./data/cameras.xlsx", sheetIndex = 1, colIndex = i_col, rowIndex = i_row )
+cameraData_xlsx_Subset
+```
+
+
+## 01_07_readingXML.pdf
+
+```{r}
+library(XML)
+## This works..
+txt = "<foo a='123' b='an attribute'><bar>some text</bar>other text</foo>"
+doc <- xmlTreeParse(txt, useInternal=TRUE)
+rm(txt)
+
+fileURL <- "http://www.w3schools.com/xml/simple.xml"
+doc <- xmlTreeParse( fileURL, useInternal=TRUE )
+rootNode <- xmlRoot( doc )
+xmlName( rootNode )
+names( rootNode )
+```
+
+
+# Remove folder with the downloaded files
+
+```{r}
+unlink( "data" , recursive = TRUE)
+```
+
