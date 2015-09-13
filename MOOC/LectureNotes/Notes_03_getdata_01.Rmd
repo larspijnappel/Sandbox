@@ -16,6 +16,7 @@ output: html_document
 * [XML files](#xml-files)
     * [XPath](#xpath)
 * [JSON](#json)
+* [data.table](#data.table)
 * [Cleanup file system](#cleanup-file-system)
 
 _Note: To get a sublist, press 4x space ( or a multiply of it, to get a sub-sublist)_
@@ -26,7 +27,6 @@ _Note: To get a sublist, press 4x space ( or a multiply of it, to get a sub-subl
 [ToC](#table-of-contents)
 
 ## 01_04_downLoadingFiles.pdf
-
 ```{r}
 getwd()
 
@@ -49,7 +49,6 @@ list.files( "data" )
 ```
 
 ## 01_05_readingLocalFiles.pdf
-
 ```{r}
 # read.table() expects by default tab separated data and no header included.
 cameraData_csv <- read.table( "./data/cameras.csv", sep=",", header = TRUE )
@@ -175,20 +174,179 @@ gamemeta
 
 ```
 
-## Notes and further resources
+### *Notes and further reading*
 
 * Official XML tutorials [short](http://www.omegahat.org/RSXML/shortIntro.pdf), [long](http://www.omegahat.org/RSXML/Tour.pdf)
 * An [outstanding guide to the XML package](http://www.stat.berkeley.edu/%7Estatcur/Workshop2/Presentations/XML.pdf)
 
+
 # JSON
-## 01_08_readingJSON.pdf
 [ToC](#table-of-contents)
 
+## 01_08_readingJSON.pdf
+The jsonlite package requires package curl, for which [a first intro on curl](http://www.r-bloggers.com/the-curl-package-a-modern-r-interface-to-libcurl/) can be found at R-bloggers. 
+```{r}
+library( jsonlite, quietly = TRUE)
+
+jsonData <- fromJSON("https://api.github.com/users/jtleek/repos")
+names( jsonData )
+jsonData$name
+```
+
+### Nested objects in JSON
+```{r}
+names(jsonData$owner)
+jsonData$owner$login
+```
+
+### Writing data frames to JSON
+```{r}
+iris3 <- head(iris, 3)
+iris3
+myjson <- toJSON( iris3, pretty=TRUE)
+cat(myjson)
+```
+
+
+### Convert back to JSON
+```{r}
+irisfromJSON <- fromJSON(myjson)
+head( irisfromJSON )
+```
+
+### *Notes and further reading*
+
+* [www.json.org](http://www.json.org/)
+* R-bloggers on [json encoderdecoder](http://www.r-bloggers.com/new-package-jsonlite-a-smarter-json-encoderdecoder/)
+* [jsonlite vignette](http://cran.r-project.org/web/packages/jsonlite/vignettes/json-mapping.pdf)
+
+
+# data.table
+[ToC](#table-of-contents)
+
+## 01_09_dataTable.pdf
+
+### Create data tables just like data frames
+```{r}
+library(data.table, quietly = TRUE)
+# set.seed(1)
+DF = data.frame(x=rnorm(9),y=rep(c("a","b","c"),each=3),z=rnorm(9))
+head(DF,3)
+# set.seed(1)
+DT = data.table(x=rnorm(9),y=rep(c("a","b","c"),each=3),z=rnorm(9))
+head(DT,3)
+```
+
+### See all the data tables in memory
+```{r}
+tables()
+```
+
+### Subsetting rows
+```{r}
+DT[2,]
+DT[DT$y=="b",]
+DT[c(2,3)]
+```
+
+### Column subsetting in data.table
+```{r}
+DT[,c(2,3)]
+```
+
+* The subsetting function is modified for data.table
+* The argument you pass after the comma is called an "expression"
+* In R an expression is a collection of statements enclosed in curley brackets
+
+```{r}
+{ x <- 1
+  y <- 2
+}
+k <- { print(10); 5 }
+print( k )
+```
+
+### Calculating values for variables with expressions
+```{r}
+DT[ , list( mean(x), sum(z) )]
+DT[ , table(y) ]
+```
+
+### Adding new columns
+> Be carefull, as a copy of the object will also be modified when changing values..
+
+```{r}
+DT[ , w := z^2 ]
+DT2 <- DT
+DT[ , y := 2 ]
+
+head(DT,n=3)
+head(DT2,n=3)
+```
+
+### Multiple operations
+```{r}
+DT[ , m := { tmp <- (x+z); log2(tmp+5) } ]
+```
+
+### plyr like operations
+```{r}
+DT[ , a := x>0 ]
+DT[ , b := mean(x+w), by = a ]
+```
+
+### Special variables
+`.N` An integer, length 1, containing the number of elements of a factor level 
+```{r}
+set.seed(123)
+DT <- data.table( x = sample( letters[1:3], 1E5, TRUE ))
+DT
+DT[ , .N, by = x ]
+```
+
+### Keys
+```{r}
+DT <- data.table( x = rep( c( "a", "b", "c" ), each=100 ), y = rnorm(300) )
+setkey( DT, x )
+DT['a']
+```
+
+### Joins
+```{r}
+DT1 <- data.table( x = c( 'a', 'a', 'b', 'dt1' ), y = 1:4 )
+DT1
+DT2 <- data.table( x = c( 'a', 'b', 'dt2'), z = 5:7 )
+DT2
+setkey( DT1, x ); setkey( DT2, x )
+merge( DT1, DT2 )
+```
+
+### Fast reading
+```{r}
+big_df <- data.frame( x = rnorm(1E6), y = rnorm(1E6) )
+file <- tempfile()
+write.table( big_df, file = file, row.names = FALSE, col.names = TRUE, sep = "\t", quote = FALSE )
+system.time( fread( file ))
+system.time( read.table( file, header = TRUE, sep = "\t" ))
+```
+
+### *Notes and further reading*
+* The latest development version contains new functions like melt and dcast for data.tables
+    * https://r-forge.r-project.org/scm/viewvc.php/pkg/NEWS?view=markup&root=datatable
+* Here is a __list of differences between data.table and data.frame__
+    * http://stackoverflow.com/questions/13618488/what-you-can-do-with-data-frame-that-you-cant-in-data-table
+* Notes based on [Raphael Gottardo's notes](https://github.com/raphg/Biostat-578/blob/master/Advanced_data_manipulation.Rpres), who got them from Kevin Ushey.
+
+
+> Link to Raphael is incorrect: search on Github and modify https://github.com/DataScienceSpecialization/courses/blob/master/03_GettingData/01_09_dataTable/index.Rmd
+
+***
 # Cleanup file system
 [ToC](#table-of-contents)
 Remove the created data folder (incl. its downloaded files).
 
 ```{r}
 unlink( "data" , recursive = TRUE)
+dir()
 ```
 
