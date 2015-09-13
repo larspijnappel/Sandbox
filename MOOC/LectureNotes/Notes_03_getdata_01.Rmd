@@ -133,7 +133,7 @@ rootNode[[1]][[1]]
 xmlSApply( rootNode, xmlValue )
 ```
 
-### XPath
+## XPath
 [ToC](#table-of-contents)
 
     * /node Top level node
