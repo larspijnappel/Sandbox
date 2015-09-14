@@ -19,7 +19,7 @@ output: html_document
 * [data.table](#data.table)
 * [Cleanup file system](#cleanup-file-system)
 
-_Note: To get a sublist, press 4x space ( or a multiply of it, to get a sub-sublist)_
+_Note to myself: To get a sublist, press 4x space (or a multiple of it for a sub-sublist)_
 
 ***
 
@@ -335,10 +335,9 @@ system.time( read.table( file, header = TRUE, sep = "\t" ))
     * https://r-forge.r-project.org/scm/viewvc.php/pkg/NEWS?view=markup&root=datatable
 * Here is a __list of differences between data.table and data.frame__
     * http://stackoverflow.com/questions/13618488/what-you-can-do-with-data-frame-that-you-cant-in-data-table
-* Notes based on [Raphael Gottardo's notes](https://github.com/raphg/Biostat-578/blob/master/Advanced_data_manipulation.Rpres), who got them from Kevin Ushey.
+* Notes based on [Raphael Gottardo's notes](https://github.com/earosenthal/biost578A/blob/master/Advanced_data_manipulation-EAR.Rpres), who got them from Kevin Ushey.
 
 
-> Link to Raphael is incorrect: search on Github and modify https://github.com/DataScienceSpecialization/courses/blob/master/03_GettingData/01_09_dataTable/index.Rmd
 
 ***
 # Cleanup file system
