@@ -26,7 +26,8 @@ _Note to myself: To get a sublist, press 4x space (or a multiple of it for a sub
 # CSV and Excel files 
 [ToC](#table-of-contents)
 
-## 01_04_downLoadingFiles.pdf
+> 01_04_downLoadingFiles.pdf
+
 ```{r}
 getwd()
 
@@ -48,14 +49,15 @@ download.file( fileURL, destfile = "./data/cameras.csv", method="wininet")
 list.files( "data" )
 ```
 
-## 01_05_readingLocalFiles.pdf
+> 01_05_readingLocalFiles.pdf
+
 ```{r}
 # read.table() expects by default tab separated data and no header included.
 cameraData_csv <- read.table( "./data/cameras.csv", sep=",", header = TRUE )
 head( cameraData_csv )
 ```
 
-## 01_06_readingExcelFiles.pdf
+> 01_06_readingExcelFiles.pdf
 
 ### download xlsx
 ```{r}
@@ -106,7 +108,7 @@ cameraData_xlsx_Subset
 # XML files 
 [ToC](#table-of-contents)
 
-## 01_07_readingXML.pdf
+> 01_07_readingXML.pdf
 
 Following examples are taken from [w3schools](http://www.w3schools.com/xml/simple.xml)
 
@@ -183,7 +185,8 @@ gamemeta
 # JSON
 [ToC](#table-of-contents)
 
-## 01_08_readingJSON.pdf
+> 01_08_readingJSON.pdf
+
 The jsonlite package requires package curl, for which [a first intro on curl](http://www.r-bloggers.com/the-curl-package-a-modern-r-interface-to-libcurl/) can be found at R-bloggers. 
 ```{r}
 library( jsonlite, quietly = TRUE)
@@ -224,7 +227,7 @@ head( irisfromJSON )
 # data.table
 [ToC](#table-of-contents)
 
-## 01_09_dataTable.pdf
+> 01_09_dataTable.pdf
 
 ### Create data tables just like data frames
 ```{r}
@@ -342,6 +345,7 @@ system.time( read.table( file, header = TRUE, sep = "\t" ))
 ***
 # Cleanup file system
 [ToC](#table-of-contents)
+
 Remove the created data folder (incl. its downloaded files).
 
 ```{r}
