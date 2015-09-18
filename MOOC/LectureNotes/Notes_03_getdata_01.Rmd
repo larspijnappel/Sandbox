@@ -1,5 +1,5 @@
 ---
-title: "Lectures notes"
+title: "Lectures notes 03. getdata"
 author: "lars pijnappel"
 date: "10 september 2015"
 output: html_document
