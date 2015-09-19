@@ -3,7 +3,7 @@ Everyone is entitled to a playground
 
 ## R
 #### Sites
-* _The_ [__R seek__](http://rseek.org/) sreach engine
+* _The_ [__R seek__](http://rseek.org/) search engine
 * 
 * About R Programming Language on [__Stack Overflow__](http://stackoverflow.com/tags/r/info)
     * Many references to _start documentations and other great resources_
