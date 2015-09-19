@@ -5,11 +5,8 @@ Everyone is entitled to a playground
 #### Introduction, Tutorials
 * DSS - [__Curated Pages__](http://datasciencespecialization.github.io/curated/)
     * R Programming Course Notes => Contains a [__Quick Reference Guide__](https://github.com/larspijnappel/DataScienceSpCourseNotes/blob/master/2_RPROG/R%20Programming%20Course%20Notes.Rmd) to R Programming
-* Authoritive guide [__R Data Import/Export__](https://cran.r-project.org/doc/manuals/r-release/R-data.html#SEC_Contents) by the R Core Team
 * [__swirl__](https://github.com/swirldev/swirl_courses) courses
     * A collection of interactive courses for the swirl R package. http://swirlstats.com
-*  [__Cookbook for R__](http://www.cookbook-r.com/)
-    * The goal of the cookbook is to provide solutions to common tasks and problems in analyzing data.
 * [Programming Exercises for R](http://www2.warwick.ac.uk/fac/sci/statistics/staff/academic-research/reed/) (by Dr Robin Reed)
     * First two sheets are intended to get users thinking in terms of vector and
   matrix operations whilst the later sheets involve writing functions. Answers to these exercises are included at the end of this document.
@@ -23,6 +20,12 @@ Everyone is entitled to a playground
 * About R Programming Language on [__Stack Overflow__](http://stackoverflow.com/tags/r/info)
     * Many references to _start documentations and other great resources_
 * R news and tutorials contributed by 500+ [R bloggers](http://www.r-bloggers.com/)
+
+#### Very worthwhile
+* [__Data Wrangling Cheat Sheet__](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf) with dplyr & tidyr
+* Authoritive guide [__R Data Import/Export__](https://cran.r-project.org/doc/manuals/r-release/R-data.html#SEC_Contents) by the R Core Team
+* [__Cookbook for R__](http://www.cookbook-r.com/)
+    * The goal of the cookbook is to provide solutions to common tasks and problems in analyzing data.
 
 #### R Styleguides
  * [Hadley Wickham's Style Guide](http://adv-r.had.co.nz/Style.html)
