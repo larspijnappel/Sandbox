@@ -3,11 +3,12 @@ Everyone is entitled to a playground
 
 ## R
 #### Introduction, Tutorials
-* DSS - [**Curated Pages**](http://datasciencespecialization.github.io/curated/)
-    * R Programming Course Notes => Contains a [**Quick Reference Guide**](https://github.com/larspijnappel/DataScienceSpCourseNotes/blob/master/2_RPROG/R%20Programming%20Course%20Notes.Rmd) to R Programming
-* [**swirl**](https://github.com/swirldev/swirl_courses) courses
+* DSS - [__Curated Pages__](http://datasciencespecialization.github.io/curated/)
+    * R Programming Course Notes => Contains a [__Quick Reference Guide__](https://github.com/larspijnappel/DataScienceSpCourseNotes/blob/master/2_RPROG/R%20Programming%20Course%20Notes.Rmd) to R Programming
+* Authoritive guide [__R Data Import/Export__](https://cran.r-project.org/doc/manuals/r-release/R-data.html#SEC_Contents) by the R Core Team
+* [__swirl__](https://github.com/swirldev/swirl_courses) courses
     * A collection of interactive courses for the swirl R package. http://swirlstats.com
-*  [**Cookbook for R**](http://www.cookbook-r.com/)
+*  [__Cookbook for R__](http://www.cookbook-r.com/)
     * The goal of the cookbook is to provide solutions to common tasks and problems in analyzing data.
 * [Programming Exercises for R](http://www2.warwick.ac.uk/fac/sci/statistics/staff/academic-research/reed/) (by Dr Robin Reed)
     * First two sheets are intended to get users thinking in terms of vector and
@@ -17,8 +18,10 @@ Everyone is entitled to a playground
 * [R for Excel Users](http://www.rforexcelusers.com/)
 
 #### Sites
-* About R Programming Language on [**Stack Overflow**](http://stackoverflow.com/tags/r/info)
-    * Many references to *start documentations and other great resources*
+* _The_ [__R seek__](http://rseek.org/) sreach engine
+* 
+* About R Programming Language on [__Stack Overflow__](http://stackoverflow.com/tags/r/info)
+    * Many references to _start documentations and other great resources_
 * R news and tutorials contributed by 500+ [R bloggers](http://www.r-bloggers.com/)
 
 #### R Styleguides
