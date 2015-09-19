@@ -2,6 +2,25 @@
 Everyone is entitled to a playground
 
 ## R
+#### Sites
+* _The_ [__R seek__](http://rseek.org/) sreach engine
+* 
+* About R Programming Language on [__Stack Overflow__](http://stackoverflow.com/tags/r/info)
+    * Many references to _start documentations and other great resources_
+* R news and tutorials contributed by 500+ [R bloggers](http://www.r-bloggers.com/)
+
+#### Very worthwhile
+* [__Data Wrangling Cheat Sheet__](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf) with dplyr & tidyr
+* The excellent [__Handling and Processing Strings in R__](http://gastonsanchez.com/blog/resources/how-to/2013/09/22/Handling-and-Processing-Strings-in-R.html) by Gaston Sanchez
+* Authoritive guide [__R Data Import/Export__](https://cran.r-project.org/doc/manuals/r-release/R-data.html#SEC_Contents) by the R Core Team
+* [__Cookbook for R__](http://www.cookbook-r.com/)
+    * The goal of the cookbook is to provide solutions to common tasks and problems in analyzing data.
+
+#### R Styleguides
+ * [Hadley Wickham's Style Guide](http://adv-r.had.co.nz/Style.html)
+ * [Google's R Style Guide](https://google-styleguide.googlecode.com/svn/trunk/Rguide.xml)
+ * [RCC](https://docs.google.com/document/d/1esDVxyWvH8AsX-VJa-8oqWaHLs4stGlIbk8kLc5VlII/edit) (R Coding Conventions)
+
 #### Introduction, Tutorials
 * DSS - [__Curated Pages__](http://datasciencespecialization.github.io/curated/)
     * R Programming Course Notes => Contains a [__Quick Reference Guide__](https://github.com/larspijnappel/DataScienceSpCourseNotes/blob/master/2_RPROG/R%20Programming%20Course%20Notes.Rmd) to R Programming
@@ -13,24 +32,6 @@ Everyone is entitled to a playground
 * Tutorials and Books by [Burns Statistics](http://www.burns-stat.com/documents/tutorials/)
     * R Inferno / Impatient R / Why use the R language? / R relative to statistical packages / and more ..
 * [R for Excel Users](http://www.rforexcelusers.com/)
-
-#### Sites
-* _The_ [__R seek__](http://rseek.org/) sreach engine
-* 
-* About R Programming Language on [__Stack Overflow__](http://stackoverflow.com/tags/r/info)
-    * Many references to _start documentations and other great resources_
-* R news and tutorials contributed by 500+ [R bloggers](http://www.r-bloggers.com/)
-
-#### Very worthwhile
-* [__Data Wrangling Cheat Sheet__](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf) with dplyr & tidyr
-* Authoritive guide [__R Data Import/Export__](https://cran.r-project.org/doc/manuals/r-release/R-data.html#SEC_Contents) by the R Core Team
-* [__Cookbook for R__](http://www.cookbook-r.com/)
-    * The goal of the cookbook is to provide solutions to common tasks and problems in analyzing data.
-
-#### R Styleguides
- * [Hadley Wickham's Style Guide](http://adv-r.had.co.nz/Style.html)
- * [Google's R Style Guide](https://google-styleguide.googlecode.com/svn/trunk/Rguide.xml)
- * [RCC](https://docs.google.com/document/d/1esDVxyWvH8AsX-VJa-8oqWaHLs4stGlIbk8kLc5VlII/edit) (R Coding Conventions)
 
 #### A brief introduction to `apply` in R
 * [SO: R Grouping functions](http://stackoverflow.com/questions/3505701/r-grouping-functions-sapply-vs-lapply-vs-apply-vs-tapply-vs-by-vs-aggrega/7141669#7141669): sapply vs. lapply vs. apply. vs. tapply vs. by vs. aggregate
