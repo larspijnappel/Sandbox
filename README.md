@@ -11,10 +11,9 @@ Everyone is entitled to a playground
 
 #### Very worthwhile
 * [__Data Wrangling Cheat Sheet__](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf) for `dplyr` & `tidyr`
-* Vignettes to `dplyr` and `tidyr`
-    * [Introduction to `dplyr`](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html)
-        * Other [`dplyr` vignettes] (https://cran.rstudio.com/web/packages/dplyr/vignettes/)
-    * [Introduction to `tidyr`](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html)
+* Vignettes to __dplyr__ and __tidyr__
+    * [Introduction](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html) and [other vignettes](https://cran.rstudio.com/web/packages/dplyr/vignettes/) to `dplyr`
+    * [Introduction](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html) to `tidyr`
 * The excellent [__Handling and Processing Strings in R__](http://gastonsanchez.com/blog/resources/how-to/2013/09/22/Handling-and-Processing-Strings-in-R.html) by Gaston Sanchez
 * Authoritive guide [__R Data Import/Export__](https://cran.r-project.org/doc/manuals/r-release/R-data.html#SEC_Contents) by the R Core Team
 * [__Cookbook for R__](http://www.cookbook-r.com/)
