@@ -10,8 +10,8 @@ Everyone is entitled to a playground
 * R news and tutorials contributed by 500+ [R bloggers](http://www.r-bloggers.com/)
 
 #### Very worthwhile
-* [__Data Wrangling Cheat Sheet__](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf) for `dplyr` & `tidyr`
-* Vignettes to __dplyr__ and __tidyr__
+* __`dplyr`__ and __`tidyr`__
+    * [Data Wrangling Cheat Sheet](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
     * [Introduction](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html) and [other vignettes](https://cran.rstudio.com/web/packages/dplyr/vignettes/) to `dplyr`
     * [Introduction](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html) to `tidyr`
 * The excellent [__Handling and Processing Strings in R__](http://gastonsanchez.com/blog/resources/how-to/2013/09/22/Handling-and-Processing-Strings-in-R.html) by Gaston Sanchez
