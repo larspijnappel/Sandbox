@@ -7,7 +7,7 @@ Everyone is entitled to a playground
 * 
 * About R Programming Language on [__Stack Overflow__](http://stackoverflow.com/tags/r/info)
     * Many references to _start documentations and other great resources_
-* R news and tutorials contributed by 500+ [R bloggers](http://www.r-bloggers.com/)
+* R news and tutorials contributed by 500+ [__R bloggers__](http://www.r-bloggers.com/)
 
 #### Very worthwhile
 * __`dplyr`__ and __`tidyr`__ (by Hadley Wickham)
