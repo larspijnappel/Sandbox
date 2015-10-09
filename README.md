@@ -15,6 +15,8 @@ Everyone is entitled to a playground
     * [Introduction](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html) and [other vignettes](https://cran.rstudio.com/web/packages/dplyr/vignettes/) to `dplyr`
     * [Introduction](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html) to `tidyr`
 * The excellent [__Handling and Processing Strings in R__](http://gastonsanchez.com/blog/resources/how-to/2013/09/22/Handling-and-Processing-Strings-in-R.html) by Gaston Sanchez
+* __`data.table`__ package
+    * [Home page](https://github.com/Rdatatable/data.table/wiki) of Matt Dowle
 * Authoritive guide [__R Data Import/Export__](https://cran.r-project.org/doc/manuals/r-release/R-data.html#SEC_Contents) by the R Core Team
 * [__Cookbook for R__](http://www.cookbook-r.com/)
     * The goal of the cookbook is to provide solutions to common tasks and problems in analyzing data.
