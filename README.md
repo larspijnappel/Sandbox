@@ -4,6 +4,7 @@ Everyone is entitled to a playground
 ## R
 #### Sites
 * _The_ [__R seek__](http://rseek.org/) search engine
+* The Quest for Proper Documentation at [__Rdocumentation.org__](http://www.rdocumentation.org/)
 * 
 * About R Programming Language on [__Stack Overflow__](http://stackoverflow.com/tags/r/info)
     * Many references to _start documentations and other great resources_
