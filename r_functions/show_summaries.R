@@ -1,12 +1,17 @@
 # How to include external function(s) -------------------------------------
 
-## require(here)  ## https://github.com/r-lib/here | http://jenrichmond.rbind.io/post/how-to-use-the-here-package/
-# source(str_c(here(), "/r_functions/show_summaries.R"))
+# library(here)  ## https://github.com/r-lib/here | http://jenrichmond.rbind.io/post/how-to-use-the-here-package/
+# fpn <- str_c(
+#   ## generic R functions directory are placed on same level as project directories
+#   here() %>% dirname(),
+#   "/r_functions/show_summaries.R"
+# )
+# source(fpn)
 
 # Example usage show_summaries --------------------------------------------
 
 # mpg %>% show_summaries()
-## call function w/ providing a short description of the dataframe
+# ## call function w/ providing a short description of the dataframe
 # mpg %>% show_summaries(df_name = "mpg tidyverse dataset")
 
 
