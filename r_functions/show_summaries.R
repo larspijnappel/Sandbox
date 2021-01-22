@@ -2,7 +2,7 @@
 ## `here` package > http://jenrichmond.rbind.io/post/how-to-use-the-here-package/
 
 ## mpg %>% show_summaries()
-## mpg %>% show_summaries("mpg tidyverse dataset")
+## mpg %>% show_summaries(df_name = "mpg tidyverse dataset")
 
 show_summaries <- function(df, df_name = "<not provided>") {
   require(tidyverse)
