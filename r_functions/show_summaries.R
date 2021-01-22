@@ -1,8 +1,9 @@
 ## source(str_c(here::here(), "/r_functions/show_summaries.R"))
 ## `here` package > http://jenrichmond.rbind.io/post/how-to-use-the-here-package/
 
-## mpg %>% show_summaries()
-## mpg %>% show_summaries(df_name = "mpg tidyverse dataset")
+# mpg %>% show_summaries()
+## call function w/ providing a short description of the dataframe
+# mpg %>% show_summaries(df_name = "mpg tidyverse dataset")
 
 show_summaries <- function(df, df_name = "<not provided>") {
   require(tidyverse)
