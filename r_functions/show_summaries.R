@@ -6,9 +6,10 @@
 # mpg %>% show_summaries(df_name = "mpg tidyverse dataset")
 
 show_summaries <- function(df, df_name = "<not provided>") {
-  require(tidyverse)
-  require(skimr)
-  require(Hmisc)
+  require(tidyverse)     ## https://github.com/tidyverse/tidyverse
+  require(skimr)         ## https://github.com/ropensci/skimr
+  require(Hmisc)         ## https://github.com/harrelfe/Hmisc
+  # require(summarytools)  ## https://github.com/dcomtois/summarytools
   # browser()
   
   get_section_header <- function(section_name, df_name = "") {
@@ -41,4 +42,13 @@ show_summaries <- function(df, df_name = "<not provided>") {
   
   cat(get_section_header("describe"))
   df %>% describe(df_name)
+
+  ## following won't work when used in a function - probably because of the 
+  ## result being written to an Output file before it's shown in the Viewer.
+  # cat(get_section_header("summarytools"))
+  # df %>% 
+  #   ## see summarytools section 2.4
+  #   dfSummary() %>% 
+  #   ## show results in Viewer
+  #   view()
 }
