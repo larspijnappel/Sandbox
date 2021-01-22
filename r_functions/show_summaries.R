@@ -23,6 +23,8 @@ show_summaries <- function(df, df_name = "<not provided>") {
   require(Hmisc)         ## https://github.com/harrelfe/Hmisc
   # require(summarytools)  ## https://github.com/dcomtois/summarytools
   # browser()
+ 
+  section_width <- 144
   
   get_section_header <- function(section_name, df_name = "") {
     ## determine first part of section header
@@ -33,7 +35,7 @@ show_summaries <- function(df, df_name = "<not provided>") {
     str_c(
       str_pad(
         string = x,
-        width = 144,
+        width = section_width,
         side = "right",
         pad = "="
       ),
@@ -41,6 +43,7 @@ show_summaries <- function(df, df_name = "<not provided>") {
     )
   }
   
+  cat(str_c("\n\n", strrep("=", section_width)))
   cat(get_section_header("summaries for dataframe:", df_name))
   
   cat(get_section_header("glimpse"))
