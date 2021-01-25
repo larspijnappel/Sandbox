@@ -75,12 +75,13 @@ show_summaries <- function(df, description = "<not provided>") {
         uv <- df[i] %>%
           unique() %>%
           pull() %>%
+          sort() %>% 
           ## convert factors, otherwise replace_na results in an error msg
           as.character() %>% 
           replace_na("<NA>")
 
         out_n[i] <- uv %>% length()
-        out_v[i] <- uv %>% sort() %>% str_c(collapse = ", ")
+        out_v[i] <- uv %>% str_c(collapse = ", ")
       }
     }
     
