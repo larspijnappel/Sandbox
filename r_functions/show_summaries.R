@@ -94,24 +94,19 @@ show_summaries <- function(df, description = "<not provided>") {
     
 # format output result ----------------------------------------------------
 
-    ## add padding + separator to column names
-    cn <- str_c(
-      str_pad(cn,
-              max(str_length(cn)),
-              side = "right"
-              ),
-      "|"
-    )
-    ## add padding before + separator after number of distinct values
-    out_n <- str_c(
-      str_pad(out_n,
-              max(str_length(out_n))
-              ),
-      "|"
-      )
+    ## add padding to column names
+    cn <- str_pad(cn,
+                  max(str_length(cn)),
+                  side = "right"
+                  )
     
-    ## create final ouput having: column names | nr. of distinct values | distinct values
-    out <- str_c(cn, out_n, out_v)
+    ## add padding before number of distinct values
+    out_n <- str_pad(out_n,
+                     max(str_length(out_n))
+                     )
+    
+    ## create final ouput having: column names|nr. of distinct values|distinct values
+    out <- str_c(cn, "|", out_n, "|", out_v)
     
     ## take into account the required space for the indices
     i_width <- str_length(length(cn)) + 5
