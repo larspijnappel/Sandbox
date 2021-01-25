@@ -72,13 +72,20 @@ show_summaries <- function(df, description = "<not provided>") {
       
       ## .. else do process it
       if (!is.list(df[[i]])) {
+        ## `sort()` must be done last, while
+        ## numeric values should NOT be converted to characters
+        ## which is needed for sorting factoral columns
+        
         uv <- df[i] %>%
           unique() %>%
           pull() %>%
-          sort() %>% 
-          ## convert factors, otherwise replace_na results in an error msg
-          as.character() %>% 
-          replace_na("<NA>")
+          ## conditionally convert column type factor to character, so that 
+          ## `sort()` works as expected
+          purrr::when(
+            any(class(df[[i]]) == "factor") ~ as.character(.),
+            ~ .
+          ) %>% 
+          sort()
 
         out_n[i] <- uv %>% length()
         out_v[i] <- uv %>% str_c(collapse = ", ")
