@@ -23,7 +23,7 @@ show_summaries <- function(df, df_name = "<not provided>") {
   require(Hmisc)         ## https://github.com/harrelfe/Hmisc
   # require(summarytools)  ## https://github.com/dcomtois/summarytools
   # browser()
- 
+  
   section_width <- 144
   
   get_section_header <- function(section_name, df_name = "") {
@@ -43,21 +43,82 @@ show_summaries <- function(df, df_name = "<not provided>") {
     )
   }
   
+  get_col_values <- function(df) {
+    cn    <- df %>% names()                   ## column names
+    out_n <- vector("character", length(cn))  ## number of unique values
+    out_v <- vector("character", length(cn))  ## unique values
+    
+# get unique values -------------------------------------------------------
+
+    for (i in seq_along(cn)) {
+      uv <- df[i] %>%
+        unique() %>% 
+        pull() %>% 
+        replace_na("<NA>")
+      
+      out_n[i] <- uv %>% length()
+      out_v[i] <- uv %>% sort() %>% str_c(collapse = ", ")
+    }
+    
+# format output result ----------------------------------------------------
+
+    ## add padding + separator to column names
+    cn <- str_c(
+      str_pad(cn,
+              max(str_length(cn)),
+              side = "right"
+              ),
+      "|"
+    )
+    ## add padding before + separator after number of distinct values
+    out_n <- str_c(
+      str_pad(out_n,
+              max(str_length(out_n))
+              ),
+      "|"
+      )
+    
+    ## create final ouput having: column names | nr. of distinct values | distinct values
+    out <- str_c(cn, out_n, out_v)
+    
+    ## take into account the required space for the indices
+    i_width <- str_length(length(cn)) + 5
+    
+    ## remove stuff if output is linger then specified section_width
+    out <- if_else((str_length(out) + i_width) > section_width,
+                   ## cutoff values
+                   str_c(str_sub(out, end = section_width - i_width), ".."),
+                   out
+                   )
+
+# return result -----------------------------------------------------------
+
+    out %>% sort()
+  }
+
+# run + return different summaries ----------------------------------------
+
   cat(str_c("\n\n", strrep("=", section_width)))
-  cat(get_section_header("summaries for dataframe:", df_name))
+  cat(get_section_header("summaries for", df_name))
   
   cat(get_section_header("glimpse"))
   df %>% glimpse()
   
+  cat(get_section_header("unique values"))
+  df %>% 
+    get_col_values() %>% 
+    ## this function won't return output when used in a function, unless ..
+    print(quote = FALSE)
+  
   cat(get_section_header("skim"))
   df %>% 
     skim() %>% 
-    ## skim won't return output when used in a function, unless..
+    ## skim won't return output when used in a function, unless ..
     print()
   
   cat(get_section_header("describe"))
   df %>% describe(df_name)
-
+  
   ## following won't work when used in a function - probably because of the 
   ## result being written to an Output file before it's shown in the Viewer.
   # cat(get_section_header("summarytools"))
