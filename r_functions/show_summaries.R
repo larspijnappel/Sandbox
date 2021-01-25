@@ -11,24 +11,38 @@
 # Example usage show_summaries --------------------------------------------
 
 # mpg %>% show_summaries()
-# ## call function w/ providing a short description of the dataframe
-# mpg %>% show_summaries(df_name = "mpg tidyverse dataset")
+# ## call function w/ providing a short description for the section titles
+# mpg %>% show_summaries(description = "mpg tidyverse dataset")
+# ## use name of object as description
+# mpg %>% show_summaries(description = substitute(.))
 
 
 # Function show_summaries -------------------------------------------------
 
-show_summaries <- function(df, df_name = "<not provided>") {
+show_summaries <- function(df, description = "<not provided>") {
+  # browser()
+  
+# Init --------------------------------------------------------------------
   require(tidyverse)     ## https://github.com/tidyverse/tidyverse
   require(skimr)         ## https://github.com/ropensci/skimr
   require(Hmisc)         ## https://github.com/harrelfe/Hmisc
   # require(summarytools)  ## https://github.com/dcomtois/summarytools
-  # browser()
+
+  ## to prevent processing errors, convert to a dataframe class where needed
+  df <-
+  if (any(str_detect(class(df), "array|table"))) {
+    df %>% as_tibble()
+  } else {
+    df
+  }
   
   section_width <- 144
   
-  get_section_header <- function(section_name, df_name = "") {
+# helper functions --------------------------------------------------------
+
+  get_section_header <- function(section_name, description = "") {
     ## determine first part of section header
-    x <- str_glue("=== {section_name} {df_name} ") %>% str_trim()
+    x <- str_glue("=== {section_name} {description} ") %>% str_trim()
     x <- str_glue("\n\n{x} ")
     
     ## complete the section header
@@ -51,16 +65,18 @@ show_summaries <- function(df, df_name = "<not provided>") {
 # get unique values -------------------------------------------------------
 
     for (i in seq_along(cn)) {
-      ## skip when column is of type list ..
+      ## skip processing when column is of type list ..
       if (is.list(df[[i]])) { 
         out_v[i] <- "<column type: list>"
       }
       
-      ## .. else process the column
+      ## .. else do process it
       if (!is.list(df[[i]])) {
         uv <- df[i] %>%
           unique() %>%
           pull() %>%
+          ## convert factors, otherwise replace_na results in an error msg
+          as.character() %>% 
           replace_na("<NA>")
 
         out_n[i] <- uv %>% length()
@@ -104,10 +120,11 @@ show_summaries <- function(df, df_name = "<not provided>") {
     out %>% sort()
   }
 
-# run + return different summaries ----------------------------------------
+
+# execute show_summaries --------------------------------------------------
 
   cat(str_c("\n", strrep("=", section_width)))
-  cat(get_section_header("summaries for", df_name))
+  cat(get_section_header("summaries for", description))
   
   cat(get_section_header("glimpse"))
   df %>% glimpse()
@@ -127,7 +144,7 @@ show_summaries <- function(df, df_name = "<not provided>") {
   cat(str_c("\n\n", strrep("=", section_width)))
   cat(get_section_header("describe"))
   ## remove any column of type list
-  df[,sapply(df, class) != "list"] %>% describe(df_name)
+  df[,sapply(df, class) != "list"] %>% describe(description)
   
   ## following won't work when used in a function - probably because of the 
   ## result being written to an Output file before it's shown in the Viewer.
