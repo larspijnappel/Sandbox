@@ -51,13 +51,21 @@ show_summaries <- function(df, df_name = "<not provided>") {
 # get unique values -------------------------------------------------------
 
     for (i in seq_along(cn)) {
-      uv <- df[i] %>%
-        unique() %>% 
-        pull() %>% 
-        replace_na("<NA>")
+      ## skip when column is of type list ..
+      if (is.list(df[[i]])) { 
+        out_v[i] <- "<column type: list>"
+      }
       
-      out_n[i] <- uv %>% length()
-      out_v[i] <- uv %>% sort() %>% str_c(collapse = ", ")
+      ## .. else process the column
+      if (!is.list(df[[i]])) {
+        uv <- df[i] %>%
+          unique() %>%
+          pull() %>%
+          replace_na("<NA>")
+
+        out_n[i] <- uv %>% length()
+        out_v[i] <- uv %>% sort() %>% str_c(collapse = ", ")
+      }
     }
     
 # format output result ----------------------------------------------------
@@ -98,7 +106,7 @@ show_summaries <- function(df, df_name = "<not provided>") {
 
 # run + return different summaries ----------------------------------------
 
-  cat(str_c("\n\n", strrep("=", section_width)))
+  cat(str_c("\n", strrep("=", section_width)))
   cat(get_section_header("summaries for", df_name))
   
   cat(get_section_header("glimpse"))
@@ -116,8 +124,10 @@ show_summaries <- function(df, df_name = "<not provided>") {
     ## skim won't return output when used in a function, unless ..
     print()
   
+  cat(str_c("\n\n", strrep("=", section_width)))
   cat(get_section_header("describe"))
-  df %>% describe(df_name)
+  ## remove any column of type list
+  df[,sapply(df, class) != "list"] %>% describe(df_name)
   
   ## following won't work when used in a function - probably because of the 
   ## result being written to an Output file before it's shown in the Viewer.
