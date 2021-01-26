@@ -42,7 +42,7 @@ show_summaries <- function(df, description = "<not provided>") {
   df <-
     df %>% 
     when(
-      any(str_detect(class(df), "array|table|ts")) ~ as_tibble(.),
+      any(str_detect(class(df), "array|table|ts|list")) ~ as_tibble(.),
       ~ .
       )
   # ## old fashion way w. `if()` statement
