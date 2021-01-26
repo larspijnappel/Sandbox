@@ -28,6 +28,15 @@ show_summaries <- function(df, description = "<not provided>") {
   require(Hmisc)         ## https://github.com/harrelfe/Hmisc
   # require(summarytools)  ## https://github.com/dcomtois/summarytools
 
+  section_width <- 144
+  ## add the object's class(es) to the description
+  description <- 
+    str_c(description,
+          " [class: ",
+          df %>% class() %>% str_c(., collapse = "|"),
+          "]"
+          )
+  
   ## (pipeline w/ conditionally steps: `purrr::when()` vs. `if()` statements)
   ## to prevent processing errors, convert to a dataframe class where needed
   df <-
@@ -43,8 +52,6 @@ show_summaries <- function(df, description = "<not provided>") {
   # } else {
   #   df
   # }
-  
-  section_width <- 144
   
 # helper functions --------------------------------------------------------
 
