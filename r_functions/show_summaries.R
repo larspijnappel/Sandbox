@@ -1,20 +1,25 @@
 # How to include external function(s) -------------------------------------
 
-# library(here)  ## https://github.com/r-lib/here | http://jenrichmond.rbind.io/post/how-to-use-the-here-package/
-# fpn <- str_c(
-#   ## generic R functions directory are placed on same level as project directories
-#   here() %>% dirname(),
-#   "/r_functions/show_summaries.R"
-# )
-# source(fpn)
+# ## https://github.com/r-lib/here | http://jenrichmond.rbind.io/post/how-to-use-the-here-package/
+# library(here)
+# ## generic R functions directory is placed on same level as project directories
+# dir_r_functions <- str_c(here() %>% dirname())
+# source(str_c(dir_r_functions, "/r_functions/show_summaries.R"))
 
-# Example usage show_summaries --------------------------------------------
+# Examples usage show_summaries -------------------------------------------
 
 # mpg %>% show_summaries()
-# ## call function w/ providing a short description for the section titles
+
+# ## call function w/ providing description for section titles
 # mpg %>% show_summaries(description = "mpg tidyverse dataset")
-# ## use name of object as description
+# 
+# ## for description, determine name of input object
 # mpg %>% show_summaries(description = substitute(.))
+# 
+# ## same, but now for a list object
+# ability.cov %>% show_summaries(substitute(.))
+# ## use `deparse()` to extract the name of a list within a list
+# ability.cov$cov %>% show_summaries(description = deparse(substitute(.)))
 
 
 # Function show_summaries -------------------------------------------------
