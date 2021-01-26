@@ -28,13 +28,22 @@ show_summaries <- function(df, description = "<not provided>") {
   require(Hmisc)         ## https://github.com/harrelfe/Hmisc
   # require(summarytools)  ## https://github.com/dcomtois/summarytools
 
+  ## (pipeline w/ conditionally steps: `purrr::when()` vs. `if()` statements)
   ## to prevent processing errors, convert to a dataframe class where needed
   df <-
-  if (any(str_detect(class(df), "array|table"))) {
-    df %>% as_tibble()
-  } else {
-    df
-  }
+    df %>% 
+    when(
+      any(str_detect(class(df), "array|table")) ~ as_tibble(.),
+      ~ .
+      )
+  # ## old fashion way w. `if()` statement
+  # df <-
+  # if (any(str_detect(class(df), "array|table"))) {
+  #   df %>% as_tibble()
+  # } else {
+  #   df
+  # }
+  
   
   section_width <- 144
   
@@ -74,14 +83,14 @@ show_summaries <- function(df, description = "<not provided>") {
       if (!is.list(df[[i]])) {
         ## `sort()` must be done last, while
         ## numeric values should NOT be converted to characters
-        ## which is needed for sorting factoral columns
+        ## (which is needed for sorting values in factoral columns)
         
         uv <- df[i] %>%
           unique() %>%
           pull() %>%
           ## conditionally convert column type factor to character, so that 
           ## `sort()` works as expected
-          purrr::when(
+          when(
             any(class(df[[i]]) == "factor") ~ as.character(.),
             ~ .
           ) %>% 
