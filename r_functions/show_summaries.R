@@ -33,7 +33,7 @@ show_summaries <- function(df, description = "<not provided>") {
   df <-
     df %>% 
     when(
-      any(str_detect(class(df), "array|table")) ~ as_tibble(.),
+      any(str_detect(class(df), "array|table|ts")) ~ as_tibble(.),
       ~ .
       )
   # ## old fashion way w. `if()` statement
@@ -44,15 +44,16 @@ show_summaries <- function(df, description = "<not provided>") {
   #   df
   # }
   
-  
   section_width <- 144
   
 # helper functions --------------------------------------------------------
 
   get_section_header <- function(section_name, description = "") {
     ## determine first part of section header
-    x <- str_glue("=== {section_name} {description} ") %>% str_trim()
-    x <- str_glue("\n\n{x} ")
+    x <- 
+      str_glue("=== {section_name} {description} ") %>% 
+      str_squish() %>% 
+      str_c("\n\n", ., " ")
     
     ## complete the section header
     str_c(
@@ -84,16 +85,20 @@ show_summaries <- function(df, description = "<not provided>") {
         ## `sort()` must be done last, while
         ## numeric values should NOT be converted to characters
         ## (which is needed for sorting values in factoral columns)
-        
-        uv <- df[i] %>%
+        uv <- 
+          df[i] %>%
           unique() %>%
-          pull() %>%
+          ## only use `pull()` on data.frame objects
+          when(
+            any(class(df) == "data.frame") ~ pull(.),
+            ~ .
+            ) %>% 
           ## conditionally convert column type factor to character, so that 
           ## `sort()` works as expected
           when(
             any(class(df[[i]]) == "factor") ~ as.character(.),
             ~ .
-          ) %>% 
+            ) %>% 
           sort()
 
         out_n[i] <- uv %>% length()
@@ -104,15 +109,17 @@ show_summaries <- function(df, description = "<not provided>") {
 # format output result ----------------------------------------------------
 
     ## add padding to column names
-    cn <- str_pad(cn,
-                  max(str_length(cn)),
-                  side = "right"
-                  )
+    cn <- 
+      str_pad(cn,
+              max(str_length(cn)),
+              side = "right"
+              )
     
     ## add padding before number of distinct values
-    out_n <- str_pad(out_n,
-                     max(str_length(out_n))
-                     )
+    out_n <- 
+      str_pad(out_n,
+              max(str_length(out_n))
+              )
     
     ## create final ouput having: column names|nr. of distinct values|distinct values
     out <- str_c(cn, "|", out_n, "|", out_v)
@@ -121,11 +128,12 @@ show_summaries <- function(df, description = "<not provided>") {
     i_width <- str_length(length(cn)) + 5
     
     ## remove stuff if output is linger then specified section_width
-    out <- if_else((str_length(out) + i_width) > section_width,
-                   ## cutoff values
-                   str_c(str_sub(out, end = section_width - i_width), ".."),
-                   out
-                   )
+    out <- 
+      if_else((str_length(out) + i_width) > section_width,
+              ## cutoff values
+              str_c(str_sub(out, end = section_width - i_width), ".."),
+              out
+              )
 
 # return result -----------------------------------------------------------
 
