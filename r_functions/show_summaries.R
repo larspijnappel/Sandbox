@@ -32,9 +32,7 @@ show_summaries <- function(df, description = "<not provided>") {
   ## add the object's class(es) to the description
   description <- 
     str_c(description,
-          " [class: ",
-          df %>% class() %>% str_c(., collapse = "|"),
-          "]"
+          " [class: ", str_c(class(df), collapse = "|"), "]"
           )
   
   ## (pipeline w/ conditionally steps: `purrr::when()` vs. `if()` statements)
@@ -42,7 +40,7 @@ show_summaries <- function(df, description = "<not provided>") {
   df <-
     df %>% 
     when(
-      any(str_detect(class(df), "array|table|ts|list")) ~ as_tibble(.),
+      any(str_detect(class(df), "array|table|ts|list|character")) ~ as_tibble(.),
       ~ .
       )
   # ## old fashion way w. `if()` statement
