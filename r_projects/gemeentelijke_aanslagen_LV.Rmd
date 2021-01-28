@@ -1,0 +1,243 @@
+---
+title: "Aanslagen Gemeentelijke belastingen"
+output: html_notebook
+---
+
+# Inleiding
+
+> Een overzicht van alle gemeentelijke aanslagen van de [Gemeente Leidschendam-Voorburg](https://www.lv.nl/).
+> Bronbestand staat in Google drive.
+
+```{r init, message=FALSE}
+library(tidyverse)
+
+library(here)  ## https://github.com/r-lib/here | http://jenrichmond.rbind.io/post/how-to-use-the-here-package/
+fpn <- str_c(
+  ## generic R functions directory are placed on same level as project directories
+  here() %>% dirname(),
+  "/r_functions/show_summaries.R"
+)
+source(fpn)
+
+# theme_set(theme_minimal())
+theme_set(theme_classic())
+```
+
+# Import
+
+## datapasta package
+The `datapasata` addin `Paste as tribble` won't work nicely with 'European-style' thousands- and decimal separators, therefor let's use the `readxl` package to import the data correctly
+
+```{r import_datapasta, eval=FALSE}
+# df <- tibble::tribble(
+#   ~belastingjaar,                ~soort, ~soort_code, ~woz_waarde, ~bedrag,
+# [..]
+#   )
+```
+
+## readxl package
+
+```{r import_readxl}
+df_imp <- 
+  readxl::read_xlsx(
+    file.choose(), 
+    sheet = "gem_aanslagen_LV"
+    )
+```
+
+## importing dataset
+
+```{r}
+df <- df_imp
+df$soort <- str_replace_all(df$soort, "Rioolrechten", "Rioolheffing")
+
+df <- 
+  df %>% 
+  group_by(soort) %>% 
+  mutate(
+    ozb_perc = bedrag/woz_waarde * 100,
+    ozb_perc_avg = mean(ozb_perc),
+    woz_delta = woz_waarde - lag(woz_waarde),
+    woz_perc = woz_delta / lag(woz_waarde) * 100,
+    woz_cum = cumsum(replace_na(woz_delta, 0)),
+    bedrag_delta = bedrag - lag(bedrag),
+    bedrag_perc = bedrag_delta / lag(bedrag) * 100
+    ) %>% 
+  ungroup()
+```
+
+# Summaries
+
+```{r summaries, warning=FALSE}
+df
+# df %>% plot()
+df %>% show_summaries(substitute(.))
+```
+
+# Visualisations
+
+## WOZ ontwikkelingen
+
+```{r gg_woz_waarde}
+g <- 
+  df %>% 
+  filter(str_detect(soort, "WOZ")) %>% 
+  # filter(belastingjaar <= 2019) %>%
+  mutate(
+    woz_avg = 
+      woz_waarde %>% 
+      mean() %>% 
+      round(),
+    woz_format = 
+      woz_waarde %>% 
+      format(big.mark = " ")
+    )
+
+g
+
+g %>% 
+  ggplot(mapping = aes(belastingjaar, woz_waarde)) +
+  geom_hline(aes(yintercept = woz_avg)) +
+  geom_label(
+    aes(
+      x = max(belastingjaar) + .8, 
+      y = woz_avg + 10^4, 
+      label = woz_avg
+      )
+    ) +
+  geom_bar(
+    aes(fill = (woz_waarde > woz_avg)),
+    stat = "identity",                    ## alternative: geom_col()
+    alpha = .1
+    ) +
+  geom_label(
+    aes(
+      label = woz_format, 
+      fill = (woz_waarde > woz_avg)
+      ), 
+    alpha = .8
+    ) +
+  labs(
+    title = "WOZ-waarde",
+    subtitle = str_glue("periode {min(g$belastingjaar)} - {max(g$belastingjaar)}"),
+    fill = g$woz_avg %>% format(big.mark = " ") %>% str_c("WOZ boven\nperiode gemiddelde (€ ", ., ")")
+    ) +
+  theme(legend.position = "top", legend.direction = "vertical")
+
+g %>% 
+  filter(!is.na(woz_delta)) %>%
+  ggplot(aes(belastingjaar, woz_delta)) +
+  geom_col(aes(y = woz_cum, fill = woz_cum > 0), alpha = .3) +
+  geom_text(aes(y = woz_cum, label = woz_cum)) +
+  geom_col(aes(fill = woz_delta > 0), width = .4) +
+  geom_label(aes(label = woz_delta)) +
+  labs(
+    title = "WOZ groei/afname",
+    subtitle = "jaarlijks (smal) + cumulatief (breed)",
+    caption = "smal: jaarlijks verschil\nbreed: cumulatieve verandering",
+    fill = "increase of \nwoz_delta + woz_cumsum"
+    ) +
+  theme_minimal()
+
+g %>% 
+  filter(!is.na(woz_delta)) %>%
+  ggplot(aes(belastingjaar, woz_cum)) +
+  geom_col(aes(fill = woz_cum > 0), alpha = .3) +
+  geom_label(aes(label = woz_cum)) +
+  geom_point(aes(y = woz_delta, size = abs(woz_delta), color = woz_delta > 0), alpha = .5) + 
+  geom_text(aes(y = woz_delta, label = woz_delta)) +
+  labs(
+    title = "WOZ groei/afname",
+    subtitle = "jaarlijks (punt) + cumulatief (kolom)",
+    caption = "punt: jaarlijks verschil\nkolom: cumulatieve verandering",
+    fill = "increase of \nwoz_delta + woz_cumsum"
+  )
+```
+
+## OZB ontwikkelingen
+
+```{r gg_ozb}
+g <- 
+  df %>% 
+  filter(str_detect(soort, "OZB"))
+
+g
+
+g %>% 
+  ggplot(aes(belastingjaar, ozb_perc)) +
+  geom_hline(aes(yintercept = ozb_perc_avg)) +
+  geom_label(
+    aes(
+      x = max(belastingjaar) + 1, 
+      y = ozb_perc_avg + .002, 
+      label = round(ozb_perc_avg, 4)
+      )
+    ) +
+  geom_col(aes(fill = ozb_perc < ozb_perc_avg), alpha = .5) +
+  geom_text(aes(label = format(ozb_perc, digits = 3))) +
+  labs(
+    title = "OZB percentage",
+    subtitle = str_glue("periode {min(g$belastingjaar)} - {max(g$belastingjaar)}"),
+    fill = g$ozb_perc_avg %>% format(digits = 3) %>% str_c("OZB onder\nperiode gemiddelde (", ., ")")
+    )
+
+g %>% 
+  ggplot(aes(belastingjaar, bedrag)) +
+  geom_point() +
+  geom_smooth() +
+  # geom_col(aes(fill = bedrag)) +
+  geom_label(
+    aes(
+      label =
+        str_c(woz_waarde %>% format(big.mark = " "),
+              "\n",
+              ozb_perc %>% format(digits = 3, decimal.mark = ",") %>% str_c(., "%"),
+              "\n",
+              bedrag %>% format(decimal.mark = ",")
+              )
+      ),
+    nudge_y = 10
+    ) +
+  labs(
+    title = "OZB ontwikkelingen",
+    subtitle = str_glue("WOZ waarde | OZB percentage | OZB bedrag\nperiode {min(g$belastingjaar)} - {max(g$belastingjaar)}")
+    )
+```
+
+## Bedragen
+
+```{r gg_bedragen}
+g <- 
+  df %>% 
+  filter(!is.na(bedrag)) #%>% 
+  # filter(!str_detect(soort, "Rioolrechten"))
+
+g
+
+g %>% 
+  ggplot(aes(soort, bedrag)) +
+  geom_boxplot()
+
+g %>% 
+  ggplot(aes(belastingjaar, bedrag, color = soort)) +
+  geom_point() +
+  geom_smooth() +
+  # geom_text(aes(label = bedrag), color = "black", nudge_y = 10) +
+  geom_label(
+    aes(
+      label =
+        str_c(bedrag_delta %>% format(digits = 2),
+              "\n",
+              bedrag_perc %>% format(digits = 3, decimal.mark = ",") %>% str_c(., "%"),
+              "\n",
+              bedrag %>% format(decimal.mark = ",")
+              )
+      ),
+    color = "black",
+    nudge_y = 20
+    ) +
+  theme(legend.position = "top") +
+  # facet_grid(. ~ soort)
+  facet_grid(soort ~ .,scales = "free_y")
+```
+
