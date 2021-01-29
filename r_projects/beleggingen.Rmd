@@ -1,0 +1,115 @@
+---
+title: "Beleggingen hypotheek"
+output: html_notebook
+---
+
+# Inleiding
+
+> Bronbestand staat in Google drive.
+
+```{r init, message=FALSE}
+library(tidyverse)
+library(ggrepel)
+library(ggiraph)
+
+library(here)  ## https://github.com/r-lib/here | http://jenrichmond.rbind.io/post/how-to-use-the-here-package/
+fpn <- str_c(
+  ## generic R functions directory are placed on same level as project directories
+  here() %>% dirname(),
+  "/r_functions/show_summaries.R"
+)
+source(fpn)
+
+theme_set(theme_classic())
+```
+
+# Import
+
+```{r import_readxl}
+df_imp <- readxl::read_excel(file.choose(), sheet = "hypotheek_belegging")
+```
+
+## cleaning dataset
+
+```{r cleaning_import}
+df <- 
+  df_imp %>% 
+  mutate(
+    saldo_delta = saldo_31_12 - lag(saldo_31_12),
+    saldo_perc = (saldo_delta/lag(saldo_31_12) * 100) %>% round(2)
+    )
+```
+
+# Summaries
+
+```{r summaries, warning=FALSE}
+df
+df %>% plot()
+df %>% show_summaries(substitute(.))
+```
+
+# Visualisations
+
+## ggrepl package
+
+```{r ggrepl}
+p <- 
+  df %>% 
+    ggplot(aes(jaaroverzicht, saldo_31_12)) +
+    geom_point(aes(color = organisatie, shape = organisatie), size = 3) +
+    geom_smooth(method = lm)
+
+p +
+  geom_label(
+    aes(
+      label = 
+        str_c(
+          saldo_31_12 %>% format(big.mark = " "),
+          "\n",
+          saldo_perc %>% round(2) %>% replace_na(""),
+          "%\n",
+          saldo_delta %>% format(big.mark = " ")
+          )
+      ),
+    nudge_y = .5*10^4
+    ) +
+  labs(title = "geom_text() with nudge_y")
+
+p +
+  geom_label_repel(
+    aes(
+      label = 
+        str_c(
+          saldo_31_12 %>% format(big.mark = " "),
+          "\n",
+          saldo_perc %>% round(2) %>% replace_na(""),
+          "%\n",
+          saldo_delta %>% format(big.mark = " ")
+          )
+      )
+    ) +
+  labs(title = "geom_text_repel()")
+```
+
+## ggiraph package
+
+```{r ggiraph}
+p <-
+  df %>%
+  ggplot(aes(jaaroverzicht, saldo_31_12)) +
+  # geom_line() +
+  geom_smooth() +
+  # geom_smooth_interactive(tooltip = "smooth", data_id = "smooth") +
+  geom_point_interactive(
+    aes(
+      color = organisatie, 
+      shape = organisatie,
+      tooltip = saldo_31_12,
+      data_id = saldo_31_12
+      ), 
+    size = 3
+    )
+
+girafe(ggobj = p)
+```
+
