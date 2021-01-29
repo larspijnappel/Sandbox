@@ -24,8 +24,13 @@
 
 # Function show_summaries -------------------------------------------------
 
-show_summaries <- function(df, description = "<not provided>") {
+show_summaries <- function(df = NULL, description = "<not provided>") {
   # browser()
+  
+  if (is.null(df)) {
+    warning("no data provided\n")
+    return(df)
+  }
   
 # Init --------------------------------------------------------------------
   require(tidyverse)     ## https://github.com/tidyverse/tidyverse
