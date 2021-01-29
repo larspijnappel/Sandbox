@@ -28,8 +28,12 @@ show_summaries <- function(df = NULL, description = "<not provided>") {
   # browser()
   
   if (is.null(df)) {
-    warning("no data provided\n")
+    warning("No data provided\n")
     return(df)
+  }
+  if (is.call(description)) {
+    warning("\n  Argument description is of class `call()`. Reminder: for lists use `deparse(substitute(.))`")
+    return(NULL)
   }
   
 # Init --------------------------------------------------------------------
