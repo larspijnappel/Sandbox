@@ -45,9 +45,9 @@ df_imp <-
     )
 ```
 
-## importing dataset
+## cleaning dataset
 
-```{r}
+```{r cleaning_import}
 df <- df_imp
 df$soort <- str_replace_all(df$soort, "Rioolrechten", "Rioolheffing")
 
@@ -202,6 +202,16 @@ g %>%
     title = "OZB ontwikkelingen",
     subtitle = str_glue("WOZ waarde | OZB percentage | OZB bedrag\nperiode {min(g$belastingjaar)} - {max(g$belastingjaar)}")
     )
+
+g %>% 
+  ggplot(aes(belastingjaar, bedrag)) +
+  geom_point() +
+  geom_smooth(aes(color = "loess (default)")) +
+  geom_smooth(aes(color = "lm"), method = "lm") +
+  labs(
+    title = "geom_smooth methods loess + lm",
+    color = "smoothing method"
+    )
 ```
 
 ## Bedragen
@@ -221,7 +231,8 @@ g %>%
 g %>% 
   ggplot(aes(belastingjaar, bedrag, color = soort)) +
   geom_point() +
-  geom_smooth() +
+  # geom_smooth() +
+  geom_smooth(method = "lm") +
   # geom_text(aes(label = bedrag), color = "black", nudge_y = 10) +
   geom_label(
     aes(
@@ -236,8 +247,16 @@ g %>%
     color = "black",
     nudge_y = 20
     ) +
-  theme(legend.position = "top") +
+  # theme(legend.position = "top") +
   # facet_grid(. ~ soort)
   facet_grid(soort ~ .,scales = "free_y")
+
+g %>% 
+  ggplot(aes(belastingjaar, bedrag)) +
+  geom_point() +
+  geom_smooth(aes(color = "loess (default)")) +
+  geom_smooth(aes(color = "lm"), method = "lm") +
+  labs(color = "smoothing method") +
+  facet_grid(. ~ soort)
 ```
 
