@@ -1,9 +1,8 @@
 # How to include external function(s) -------------------------------------
 
-# ## https://github.com/r-lib/here | http://jenrichmond.rbind.io/post/how-to-use-the-here-package/
-# library(here)
 # ## generic R functions directory is placed on same level as project directories
-# dir_r_functions <- str_c(here() %>% dirname())
+## https://github.com/r-lib/here | http://jenrichmond.rbind.io/post/how-to-use-the-here-package/
+# dir_r_functions <- str_c(here::here() %>% dirname())
 # source(str_c(dir_r_functions, "/r_functions/show_summaries.R"))
 
 # Examples usage show_summaries -------------------------------------------
@@ -25,6 +24,13 @@
 # Function show_summaries -------------------------------------------------
 
 show_summaries <- function(df = NULL, description = "<not provided>") {
+
+# Init --------------------------------------------------------------------
+  library(tidyverse)     ## https://github.com/tidyverse/tidyverse
+  library(skimr)         ## https://github.com/ropensci/skimr
+  library(Hmisc)         ## https://github.com/harrelfe/Hmisc
+  # library(summarytools)  ## https://github.com/dcomtois/summarytools
+
   # browser()
   
   if (is.null(df)) {
@@ -36,12 +42,6 @@ show_summaries <- function(df = NULL, description = "<not provided>") {
     return(NULL)
   }
   
-# Init --------------------------------------------------------------------
-  require(tidyverse)     ## https://github.com/tidyverse/tidyverse
-  require(skimr)         ## https://github.com/ropensci/skimr
-  require(Hmisc)         ## https://github.com/harrelfe/Hmisc
-  # require(summarytools)  ## https://github.com/dcomtois/summarytools
-
   section_width <- 144
   ## add the object's class(es) to the description
   description <- 
@@ -86,7 +86,7 @@ show_summaries <- function(df = NULL, description = "<not provided>") {
     )
   }
   
-  get_col_values <- function(df) {
+  get_unique_values <- function(df) {
     cn    <- df %>% names()                   ## column names
     out_n <- vector("character", length(cn))  ## number of unique values
     out_v <- vector("character", length(cn))  ## unique values
@@ -103,7 +103,7 @@ show_summaries <- function(df = NULL, description = "<not provided>") {
       if (!is.list(df[[i]])) {
         ## `sort()` must be done last, while
         ## numeric values should NOT be converted to characters
-        ## (which is needed for sorting values in factoral columns)
+        ## (which is needed for sorting values in categorical columns)
         uv <- 
           df[i] %>%
           unique() %>%
@@ -140,13 +140,13 @@ show_summaries <- function(df = NULL, description = "<not provided>") {
               max(str_length(out_n))
               )
     
-    ## create final ouput having: column names|nr. of distinct values|distinct values
+    ## create final output having: column names|nr. of distinct values|distinct values
     out <- str_c(cn, "|", out_n, "|", out_v)
     
     ## take into account the required space for the indices
     i_width <- str_length(length(cn)) + 5
     
-    ## remove stuff if output is linger then specified section_width
+    ## remove stuff if output is longer then specified section_width
     out <- 
       if_else((str_length(out) + i_width) > section_width,
               ## cutoff values
@@ -170,7 +170,7 @@ show_summaries <- function(df = NULL, description = "<not provided>") {
   
   cat(get_section_header("unique values"))
   df %>% 
-    get_col_values() %>% 
+    get_unique_values() %>% 
     ## this function won't return output when used in a function, unless ..
     print(quote = FALSE)
   
@@ -193,4 +193,5 @@ show_summaries <- function(df = NULL, description = "<not provided>") {
   #   dfSummary() %>% 
   #   ## show results in Viewer
   #   view()
+
 }
