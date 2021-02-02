@@ -14,10 +14,9 @@ import_tripleA_data <- function() {
     ## names of files in zip are constructed in a similar fashion as 
     ## the zip-file itself, where the type of file is appended to the file name
     data_fn <- 
-      str_c(
-        str_sub(basename(zip_fpn), end = 17),
-        data_fn
-        )
+      str_c(str_sub(basename(zip_fpn), end = 17),
+            data_fn
+            )
     
     ## prevent errors when archive does not contain the specified file
     file_in_zip <- data_fn %in% zip_list(zip_fpn)$filename
