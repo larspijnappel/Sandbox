@@ -23,7 +23,7 @@
 
 # Function show_summaries -------------------------------------------------
 
-show_summaries <- function(df = NULL, description = "<not provided>") {
+show_summaries <- function(df = NULL, description = "<not provided>", section_width = 144) {
 
 # Init --------------------------------------------------------------------
   library(tidyverse)     ## https://github.com/tidyverse/tidyverse
@@ -42,7 +42,6 @@ show_summaries <- function(df = NULL, description = "<not provided>") {
     return(NULL)
   }
   
-  section_width <- 144
   ## add the object's class(es) to the description
   description <- 
     str_c(description,
