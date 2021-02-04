@@ -10,6 +10,7 @@ output: html_notebook
 
 ```{r init, message=FALSE}
 library(tidyverse)
+library(plotly)
 
 library(here)  ## https://github.com/r-lib/here | http://jenrichmond.rbind.io/post/how-to-use-the-here-package/
 fpn <- str_c(
@@ -25,16 +26,6 @@ theme_set(theme_classic())
 
 # Import
 
-## datapasta package
-The `datapasata` addin `Paste as tribble` won't work nicely with 'European-style' thousands- and decimal separators, therefor let's use the `readxl` package to import the data correctly
-
-```{r import_datapasta, eval=FALSE}
-# df <- tibble::tribble(
-#   ~belastingjaar,                ~soort, ~soort_code, ~woz_waarde, ~bedrag,
-# [..]
-#   )
-```
-
 ## readxl package
 
 ```{r import_readxl}
@@ -48,9 +39,10 @@ df_imp <-
 ## cleaning dataset
 
 ```{r cleaning_import}
-df <- df_imp
-df$soort <- str_replace_all(df$soort, "Rioolrechten", "Rioolheffing")
-
+df <- 
+  df_imp %>% 
+  mutate(soort = str_replace_all(df$soort, "Rioolrechten", "Rioolheffing"))
+         
 df <- 
   df %>% 
   group_by(soort) %>% 
@@ -69,12 +61,43 @@ df <-
 # Summaries
 
 ```{r summaries, warning=FALSE}
-df
 # df %>% plot()
 df %>% show_summaries(substitute(.))
 ```
 
 # Visualisations
+
+## esquisse package
+
+The purpose of this add-in is to let you explore your data quickly to extract the information they hold. 
+See [documentation](https://dreamrs.github.io/esquisse/index.html) and Github [dreamRs/esquisse](https://github.com/dreamrs/esquisse/)
+
+```{r esquisse}
+## ggplot2 builder
+# df %>% esquisse::esquisser()
+
+g <-
+  df %>%
+  mutate(
+    text = str_c("verschil %: ", bedrag_perc %>% round(2),
+                 "\nverschil €: ", bedrag_delta
+                 )
+    ) %>% 
+  # filter(!(soort %in% "WOZ-beschikking")) %>%
+  filter(str_detect(string = soort, 
+                    pattern = regex("woz-.+", ignore_case = TRUE), 
+                    negate = TRUE
+                    )) %>% 
+  ggplot(aes(x = belastingjaar, y = bedrag, colour = soort)) +
+  geom_point(aes(text = text)) +
+  geom_smooth(method = "lm", span = 0.75) +
+  # scale_color_hue() +
+  theme_bw() +
+  facet_wrap(vars(soort))
+
+ggplotly(g)
+```
+
 
 ## WOZ ontwikkelingen
 
@@ -203,15 +226,20 @@ g %>%
     subtitle = str_glue("WOZ waarde | OZB percentage | OZB bedrag\nperiode {min(g$belastingjaar)} - {max(g$belastingjaar)}")
     )
 
-g %>% 
+gp <- 
+  g %>%
+  # filter(belastingjaar < 2020) %>% 
   ggplot(aes(belastingjaar, bedrag)) +
   geom_point() +
   geom_smooth(aes(color = "loess (default)")) +
   geom_smooth(aes(color = "lm"), method = "lm") +
   labs(
-    title = "geom_smooth methods loess + lm",
+    title = "OZB ontwikkelingen\ngeom_smooth methods: loess + lm",
+    ## subtitle + caption seems not to be working w/ plotly
+    # subtitle = "geom_smooth methods: loess + lm",
     color = "smoothing method"
     )
+ggplotly(gp)
 ```
 
 ## Bedragen
@@ -260,3 +288,15 @@ g %>%
   facet_grid(. ~ soort)
 ```
 
+
+# Scrap stuff
+
+## datapasta package
+The `datapasata` addin `Paste as tribble` won't work nicely with 'European-style' thousands- and decimal separators, therefor let's use the `readxl` package to import the data correctly
+
+```{r import_datapasta, eval=FALSE}
+# df <- tibble::tribble(
+#   ~belastingjaar,                ~soort, ~soort_code, ~woz_waarde, ~bedrag,
+# [..]
+#   )
+```

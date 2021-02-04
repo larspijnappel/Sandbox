@@ -92,6 +92,7 @@ g +
     ) +
   labs(title = "geom_text_repel()")
 ```
+
 ## plotly package
 
 ```{r ggplotly}
