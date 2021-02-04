@@ -10,7 +10,7 @@ output: html_notebook
 ```{r init, message=FALSE}
 library(tidyverse)
 library(ggrepel)
-library(ggiraph)
+library(plotly)
 
 library(here)  ## https://github.com/r-lib/here | http://jenrichmond.rbind.io/post/how-to-use-the-here-package/
 fpn <- str_c(
@@ -30,6 +30,8 @@ df_imp <- readxl::read_excel(file.choose(), sheet = "hypotheek_belegging")
 ```
 
 ## cleaning dataset
+
+Voeg twee kolommen toe met waarde en procentuele groei/afname t.o.v. vorig jaar laat zien.
 
 ```{r cleaning_import}
 df <- 
@@ -53,13 +55,13 @@ df %>% show_summaries(substitute(.))
 ## ggrepl package
 
 ```{r ggrepl}
-p <- 
+g <- 
   df %>% 
     ggplot(aes(jaaroverzicht, saldo_31_12)) +
     geom_point(aes(color = organisatie, shape = organisatie), size = 3) +
     geom_smooth(method = lm)
 
-p +
+g +
   geom_label(
     aes(
       label = 
@@ -75,7 +77,7 @@ p +
     ) +
   labs(title = "geom_text() with nudge_y")
 
-p +
+g +
   geom_label_repel(
     aes(
       label = 
@@ -90,11 +92,33 @@ p +
     ) +
   labs(title = "geom_text_repel()")
 ```
+## plotly package
+
+```{r ggplotly}
+g <- 
+  df %>%
+  mutate(
+    details = str_c("groei/afname %: ", saldo_perc %>% round(2) %>% replace_na(""),
+                    "%\n",
+                    "groei/afname €: ", saldo_delta %>% format(big.mark = " ")
+                    )
+    ) %>% 
+  ggplot(aes(jaaroverzicht, saldo_31_12, text = details, color = organisatie)) +
+  geom_point() +
+  geom_smooth(aes(group = 1), method = lm) +
+  expand_limits(y = 0)
+
+ggplotly(g)
+```
+
+# Scrap stuff
 
 ## ggiraph package
 
 ```{r ggiraph}
-p <-
+library(ggiraph)
+
+g <-
   df %>%
   ggplot(aes(jaaroverzicht, saldo_31_12)) +
   # geom_line() +
@@ -110,6 +134,6 @@ p <-
     size = 3
     )
 
-girafe(ggobj = p)
+girafe(ggobj = g)
 ```
 
