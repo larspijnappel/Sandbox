@@ -5,12 +5,12 @@ get_tabyl_2 <- function(df = df, by_row = by_row, by_col = by_col, sort_by = Tot
   ## see vignette("programming") section Indirection
   
   df %>%
-    tabyl({{ by_row }}, {{by_col}}) %>% 
+    tabyl({{by_row}}, {{by_col}}) %>% 
     # adorn_totals(where = c("row", "col")) %>%
     adorn_totals("col") %>%
     adorn_percentages() %>% 
     adorn_pct_formatting() %>% 
-    adorn_ns() %>%arrange(desc({{ sort_by }})) %>%
+    adorn_ns() %>%arrange(desc({{sort_by}})) %>%
     as_tibble()
 }
 
