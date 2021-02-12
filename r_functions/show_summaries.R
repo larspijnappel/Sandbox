@@ -25,6 +25,9 @@
 
 show_summaries <- function(df = NULL, description = "<not provided>", section_width = 144) {
 
+  ## Nice overview of different favourite R package for: summarising data
+  ## https://dabblingwithdata.wordpress.com/2018/01/02/my-favourite-r-package-for-summarising-data/
+  
 # Init --------------------------------------------------------------------
   library(tidyverse)     ## https://github.com/tidyverse/tidyverse
   library(skimr)         ## https://github.com/ropensci/skimr
