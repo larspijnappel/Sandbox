@@ -1,17 +1,25 @@
-get_tabyl_2 <- function(df = df, by_row = by_row, by_col = by_col, sort_by = Total) {
+get_tabyl_2 <- function(df = df, by_row = by_row, by_col = by_col, sort_by = Total, sort_desc = TRUE) {
   library(janitor)
   
   ## embrace promised arguments
   ## see vignette("programming") section Indirection
   
-  df %>%
+  x <- df %>%
     tabyl({{by_row}}, {{by_col}}) %>% 
     # adorn_totals(where = c("row", "col")) %>%
     adorn_totals("col") %>%
     adorn_percentages() %>% 
     adorn_pct_formatting() %>% 
-    adorn_ns() %>%arrange(desc({{sort_by}})) %>%
+    adorn_ns() %>%
     as_tibble()
+  
+  ## when no sorting options are provided (i.e. `sort_by`, `sort_desc`), 
+  ## then output is in descending order of the Total column.
+  x %>%
+    when(sort_desc == TRUE ~ x %>% arrange(desc({{sort_by}})),
+         ~ x %>% arrange({{sort_by}})
+         )
+
 }
 
 # storms %>% get_tabyl_2(name, status)
