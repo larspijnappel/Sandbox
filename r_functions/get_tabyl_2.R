@@ -1,5 +1,5 @@
-get_tabyl_2 <- function(df = df, by_row = by_row, by_col = by_col, sort_by = Total, sort_desc = TRUE) {
-  library(janitor)
+get_tabyl_2 <- function(df, by_row, by_col, sort_by = Total, sort_desc = TRUE) {
+  suppressPackageStartupMessages(library(janitor))
   
   ## embrace promised arguments
   ## see vignette("programming") section Indirection
